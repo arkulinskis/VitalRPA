@@ -8,7 +8,7 @@ JavaScript errors visitors hit. When something breaks, **playbooks** (the RPA pa
 Slack/Teams/Discord/Zapier, or a second-robot recheck. Built on [Anvil](https://anvil.works).
 
 - **App repo:** github.com/arkulinskis/VitalRPA (branch `master`). Anvil pulls `master`.
-- **Live:** not published yet (fill in once the user sends the address).
+- **Live:** https://vitalrpa.com (DNS pointed at Anvil on 2026-10-29). Listed in the Addanapp portfolio (Working businesses).
 
 ## What it does
 
