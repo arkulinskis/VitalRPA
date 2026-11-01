@@ -19,12 +19,16 @@ html .anvil-spinner::after, #loadingSpinner::after {
   content: ""; position: absolute; inset: 14px; border-radius: 16px;
   background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E %3Crect width=%2264%22 height=%2264%22 rx=%2215%22 fill=%22%2310161d%22/%3E %3Crect x=%226%22 y=%226%22 width=%2252%22 height=%2252%22 rx=%2211%22 fill=%22none%22 stroke=%22%23253040%22 stroke-width=%222%22/%3E %3Cpath d=%22M9 35h11l4.5-10 7 21 7.5-30 5 19H55%22 fill=%22none%22 stroke=%22%232bd38a%22 stroke-width=%225.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E %3Ccircle cx=%2251%22 cy=%2213%22 r=%224.5%22 fill=%22%235c9dff%22/%3E %3C/svg%3E") center / contain no-repeat;
 }
+/* loader:start scan brand=#00a46a (made by APP_MAKER/tools/loaders.py; rerun it instead of editing) */
+html .anvil-spinner, #loadingSpinner { overflow: hidden; animation: none; }
 html .anvil-spinner::before, #loadingSpinner::before {
-  content: ""; position: absolute; inset: -7px; border-radius: 32px; border: 3px solid transparent;
-  border-top-color: #00a46a; border-right-color: #00a46a; animation: app-turn 1s linear infinite;
+  content: ""; position: absolute; left: 0; right: 0; top: -24px; height: 24px; z-index: 1;
+  background: linear-gradient(180deg, transparent, rgba(0, 164, 106, 0.5) 80%, #00a46a);
+  animation: app-scan 1.5s cubic-bezier(.5, 0, .5, 1) infinite;
 }
-@keyframes app-turn { to { transform: rotate(360deg); } }
+@keyframes app-scan { to { transform: translateY(112px); } }
 @keyframes app-breathe { 50% { transform: scale(.94); } }
+/* loader:end */
 @media (prefers-reduced-motion: reduce) {
   html .anvil-spinner, #loadingSpinner { animation: none; }
   html .anvil-spinner::before, #loadingSpinner::before { animation-duration: 3s; }
