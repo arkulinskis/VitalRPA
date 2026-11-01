@@ -887,7 +887,7 @@ metadata:
   title: 'VitalRPA: website monitoring robots for busy teams'
 name: VitalRPA
 native_deps:
-  head_html: "<script src=\"_/theme/legal-kit.js?v=b2af67764f\"></script>\n<!-- seo:start (APP_MAKER/seo: edit seo/apps/vitalrpa.json\
+  head_html: "<script src=\"_/theme/legal-kit.js?v=edd3b4cedd\"></script>\n<!-- seo:start (APP_MAKER/seo: edit seo/apps/vitalrpa.json\
     \ and run seo.py, not here) -->\n<link rel=\"canonical\" href=\"https://vitalrpa.com/\">\n<meta name=\"robots\" content=\"\
     index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\">\n<meta name=\"keywords\" content=\"website\
     \ monitoring, uptime monitor, SSL certificate expiry alert, domain expiry monitoring, status page, website robots, RPA\
