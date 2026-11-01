@@ -1244,21 +1244,25 @@
     bandLead: 'Add an address, and the first check runs within a minute.'
   };
 
+  // The console, working: a robot sweeps the fleet, harbordental goes down, the playbook rechecks, alerts and sees it recover
   function heroArt() {
-    var rows = [['up', 'shop.northwind…', 'uuuuuuuuuuuuuuuuuuuuuusuu', '184 ms'], ['down', 'harbordental', 'uuuuuuuuuuuuuuuuuuuuuddd', '502'],
-                ['slow', 'pinecrest-realty', 'ssusssuussssuussssusssss', '2.7 s'], ['up', 'api.atlasfreight', 'uuuuuuuuuuuuuuuuuuuuuuuu', '92 ms'],
-                ['up', 'littlefern', 'uuuuuuuuuuuuuuuuuuuuuuuu', '310 ms']];
+    var rows = [['up', 'shop.northwind.ca', 'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuusuu', '184 ms'], ['down', 'harbordental.com', 'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuudd', '502', 1],
+                ['slow', 'pinecrest-realty.ca', 'ssusssuussssuussssusssssssusssuussssuussssusss', '2.7 s'], ['up', 'api.atlasfreight.io', 'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu', '92 ms'],
+                ['up', 'littlefern.shop', 'uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu', '310 ms']];
     var map = { u: 'up', s: 'slow', d: 'down' };
-    return '<div class="lp-art" aria-hidden="true"><div class="lp-win"><div class="lp-bar"><i></i><i></i><i></i><span>vitalrpa · console</span></div>' +
-      '<div class="lp-kp"><div>Sites up<b>7<span class="faint">/8</span></b></div><div>Incidents<b class="bad">3</b></div><div>Visitors today<b>2,418</b></div></div>' +
-      rows.map(function (r) {
-        return '<div class="lp-row"><span class="nm">' + VR.led(r[0]) + '<b>' + r[1] + '</b></span>' + VR.cells(r[2].slice(0, 24).split('').map(function (c) { return map[c]; })) + '<span class="ms">' + r[3] + '</span></div>';
-      }).join('') + '</div>' +
-      '<div class="lp-term"><p><span class="t">14:05</span><span class="ok">uptime</span> GET shop.northwind → 200 184 ms</p>' +
-      '<p><span class="t">14:05</span><span class="bad">uptime</span> GET harbordental → 502 Bad Gateway</p>' +
-      '<p><span class="t">14:07</span><span class="w">playbook</span> recheck: still failing</p>' +
-      '<p><span class="t">14:07</span><span class="w">playbook</span> email → oncall@ · slack → #web</p></div>' +
-      '<div class="lp-chip">&lt;script&gt; <b>&lt; 1 KB</b> · no cookies</div></div>';
+    var step = function (ic, cls, text, sub) { return '<div class="lp-step2"><i class="' + cls + '">' + ic + '</i><span><span class="' + cls + '">' + text + '</span><small>' + sub + '</small></span></div>'; };
+    return '<div class="lp-console" aria-hidden="true"><div class="lp-win"><div class="lp-bar"><i></i><i></i><i></i><span>vitalrpa · console</span><em>● robots on patrol</em></div>' +
+      '<div class="lp-kp"><div>Sites up<b>7<span class="faint">/8</span></b></div><div>Incidents<b class="bad">1</b></div><div>Visitors today<b>2,418</b></div></div>' +
+      '<div class="lp-rows">' + rows.map(function (r) {
+        return '<div class="lp-row' + (r[4] ? ' hit' : '') + '"><span class="nm">' + VR.led(r[0]) + '<b>' + r[1] + '</b></span>' + VR.cells(r[2].split('').map(function (c) { return map[c]; })) + '<span class="ms">' + r[3] + '</span></div>';
+      }).join('') + '<span class="lp-scan"></span></div></div>' +
+      '<div class="lp-play"><div class="hd"><span>Playbook · site down</span><b>no code</b></div>' +
+        step('!', 'bad', '14:05 GET harbordental → 502', 'robot 1, Montréal') +
+        step('↻', 'w', '14:06 second robot rechecks', 'robot 2, Frankfurt: still failing') +
+        step('✉', 'w', '14:07 email → oncall@', 'with the error and a screenshot') +
+        step('#', 'w', '14:07 Slack → #web', '"harbordental is down (502)"') +
+        step('✓', 'ok', '14:19 back up, 211 ms', 'incident closed, 14 min') +
+        '<span class="lp-chip">&lt;script&gt; <b>&lt; 1 KB</b> · no cookies</span></div></div>';
   }
 
   UI.page('landing', { title: 'Website robots' }, function (view, ctx) {
@@ -1266,11 +1270,11 @@
     var primary = me ? '<a class="ui-btn primary lg" href="#home" data-go="home">Open the console ' + UI.icon('arrow') + '</a>'
       : '<a class="ui-btn primary lg" href="#auth/signup" data-go="auth/signup">' + esc(C.cta) + ' ' + UI.icon('arrow') + '</a>';
     view.innerHTML =
-      '<section class="lp-hero"><div class="ui-wrap"><div>' +
-        '<div class="eyebrow">' + esc(C.eyebrow) + '</div><h1>' + C.title + '</h1><p class="lp-lead">' + esc(C.lead) + '</p>' +
+      '<section class="lp-hero"><div class="ui-wrap"><div class="lp-top">' +
+        '<div><div class="eyebrow">' + esc(C.eyebrow) + '</div><h1>' + C.title + '</h1></div><div><p class="lp-lead">' + esc(C.lead) + '</p>' +
         '<div class="lp-cta">' + primary + '<a class="ui-btn lg" href="#status/northwind" data-go="status/northwind">' + UI.icon('status') + 'See a live status page</a></div>' +
         '<div class="lp-proof">' + C.proof.map(function (p) { return '<span>' + UI.icon('check') + esc(p) + '</span>'; }).join('') + '</div>' +
-      '</div>' + heroArt() + '</div></section>' +
+      '</div></div>' + heroArt() + '</div></section>' +
       '<section class="lp-section" id="how"><div class="ui-wrap"><div class="lp-head"><div class="eyebrow">How it works</div><h2>' + esc(C.stepsTitle) + '</h2><p>' + esc(C.stepsLead) + '</p></div>' +
         '<div class="lp-steps">' + C.steps.map(function (s) { return '<div class="lp-step"><span class="n">' + s[0] + '</span><h3>' + esc(s[1]) + '</h3><p>' + esc(s[2]) + '</p><code>' + s[3] + '</code></div>'; }).join('') + '</div></div></section>' +
       '<section class="lp-section alt"><div class="ui-wrap"><div class="lp-head"><div class="eyebrow">What the robots check</div><h2>' + esc(C.featuresTitle) + '</h2><p>' + esc(C.featuresLead) + '</p></div>' +
