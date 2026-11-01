@@ -881,16 +881,48 @@ db_schema:
     server: full
     title: Visits
 metadata:
-  description: 'Website robots for busy teams: uptime every hour, SSL and domain watch, a visitor beacon under 1 KB, and playbooks
-    that act when something breaks.'
+  description: 'Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under
+    1 KB, and playbooks that act when something breaks.'
   logo_img: asset:icon-512.png
-  title: 'VitalRPA: robots that watch your websites'
+  title: 'VitalRPA: website monitoring robots for busy teams'
 name: VitalRPA
 native_deps:
-  head_html: "<script src=\"_/theme/legal-kit.js?v=b2af67764f\"></script>\n<meta name=\"viewport\" content=\"width=device-width,\
-    \ initial-scale=1, viewport-fit=cover\">\n<meta name=\"theme-color\" content=\"#ffffff\">\n<meta name=\"apple-mobile-web-app-capable\"\
-    \ content=\"yes\">\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"\
-    https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap\"\
+  head_html: "<script src=\"_/theme/legal-kit.js?v=b2af67764f\"></script>\n<!-- seo:start (APP_MAKER/seo: edit seo/apps/vitalrpa.json\
+    \ and run seo.py, not here) -->\n<link rel=\"canonical\" href=\"https://vitalrpa.com/\">\n<meta name=\"robots\" content=\"\
+    index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\">\n<meta name=\"keywords\" content=\"website\
+    \ monitoring, uptime monitor, SSL certificate expiry alert, domain expiry monitoring, status page, website robots, RPA\
+    \ for websites, real user monitoring, Slack alerts website down\">\n<meta name=\"author\" content=\"Arkvital\">\n<meta\
+    \ property=\"og:type\" content=\"website\">\n<meta property=\"og:site_name\" content=\"VitalRPA\">\n<meta property=\"\
+    og:title\" content=\"VitalRPA: website monitoring robots for busy teams\">\n<meta property=\"og:description\" content=\"\
+    Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and\
+    \ playbooks that act when something breaks.\">\n<meta property=\"og:locale\" content=\"en_CA\">\n<meta property=\"og:url\"\
+    \ content=\"https://vitalrpa.com/\">\n<meta property=\"og:image\" content=\"https://vitalrpa.com/_/theme/og-image.png\"\
+    >\n<meta property=\"og:image:width\" content=\"1200\"><meta property=\"og:image:height\" content=\"630\">\n<meta property=\"\
+    og:image:alt\" content=\"VitalRPA: Robots that watch your websites and act when something breaks\">\n<meta name=\"twitter:card\"\
+    \ content=\"summary_large_image\">\n<meta name=\"twitter:title\" content=\"VitalRPA: website monitoring robots for busy\
+    \ teams\">\n<meta name=\"twitter:description\" content=\"Website robots for busy teams: uptime checks every hour, SSL\
+    \ and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.\">\n<meta name=\"\
+    twitter:image\" content=\"https://vitalrpa.com/_/theme/og-image.png\">\n<link rel=\"alternate\" type=\"text/plain\" title=\"\
+    VitalRPA for AI assistants\" href=\"https://vitalrpa.com/llms.txt\">\n<script type=\"application/ld+json\">{\"@context\"\
+    : \"https://schema.org\", \"@graph\": [{\"@type\": \"WebApplication\", \"@id\": \"https://vitalrpa.com/#app\", \"name\"\
+    : \"VitalRPA\", \"url\": \"https://vitalrpa.com/\", \"description\": \"Website robots for busy teams: uptime checks every\
+    \ hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.\", \"\
+    image\": \"https://vitalrpa.com/_/theme/og-image.png\", \"inLanguage\": \"en\", \"publisher\": {\"@id\": \"https://arkvital.com/#org\"\
+    }, \"keywords\": \"website monitoring, uptime monitor, SSL certificate expiry alert, domain expiry monitoring, status\
+    \ page, website robots, RPA for websites, real user monitoring, Slack alerts website down\", \"applicationCategory\":\
+    \ \"BusinessApplication\", \"operatingSystem\": \"Any (web browser)\", \"browserRequirements\": \"Requires JavaScript\
+    \ and a modern web browser\", \"featureList\": [\"24 check-ins a day by default, every 5 minutes when it matters\", \"\
+    Status, response time, keyword, TLS certificate, domain expiry and security headers\", \"A visitor beacon under 1 KB with\
+    \ no cookies\", \"Playbooks: email, webhooks for Slack, Teams, Discord and Zapier, rechecks\", \"A console with 24-hour\
+    \ strips, 30-day uptime and a robot log\", \"Public status pages\"], \"audience\": {\"@type\": \"Audience\", \"audienceType\"\
+    : \"Agencies, freelancers and teams who run many websites\"}}, {\"@type\": \"WebSite\", \"@id\": \"https://vitalrpa.com/#site\"\
+    , \"url\": \"https://vitalrpa.com/\", \"name\": \"VitalRPA\", \"publisher\": {\"@id\": \"https://arkvital.com/#org\"}},\
+    \ {\"@type\": \"Organization\", \"@id\": \"https://arkvital.com/#org\", \"name\": \"Arkvital\", \"url\": \"https://arkvital.com\"\
+    , \"email\": \"arkvital@outlook.com\", \"address\": {\"@type\": \"PostalAddress\", \"addressLocality\": \"Montreal\",\
+    \ \"addressRegion\": \"QC\", \"addressCountry\": \"CA\"}}]}</script>\n<!-- seo:end -->\n<meta name=\"viewport\" content=\"\
+    width=device-width, initial-scale=1, viewport-fit=cover\">\n<meta name=\"theme-color\" content=\"#ffffff\">\n<meta name=\"\
+    apple-mobile-web-app-capable\" content=\"yes\">\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link\
+    \ rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap\"\
     \ rel=\"stylesheet\">\n<link id=\"ui-favicon\" rel=\"icon\" type=\"image/svg+xml\" href=\"_/theme/icon.svg?v=876ca19ac4\"\
     >\n<link rel=\"apple-touch-icon\" href=\"_/theme/icon-180.png?v=876ca19ac4\">\n<script>\n/* Keep our tab icon: Anvil adds\
     \ its own <link rel=\"icon\">, so drop any other icon link. */\n(function () {\n  function keep() {\n    var ours = document.getElementById('ui-favicon');\n\
