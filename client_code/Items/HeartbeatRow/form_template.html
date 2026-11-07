@@ -1,0 +1,18 @@
+<div class="bt-hb-host">
+  <div class="bt-hb">
+    <span class="vr-led" anvil:dom-node="led"></span>
+    <div class="bt-hb-main">
+      <h3><span anvil:dom-node="name"></span> <span class="ui-badge" anvil:dom-node="sample" hidden>Sample</span></h3>
+      <div class="meta"><span anvil:dom-node="meta"></span><span class="late" anvil:dom-node="late" hidden> · LATE</span><span anvil:dom-node="due"></span><span anvil:dom-node="pings"></span></div>
+    </div>
+    <div class="ui-row bt-btns" anvil:name="buttons">
+      <anvil-component type="Button" name="ping_button" prop:text="Test ping" prop:role='["btn", "btn-sm", "ic-send"]'></anvil-component>
+      <anvil-component type="Button" name="pause_button" prop:text="Pause" prop:role='["btn", "btn-sm", "ic-pause"]'></anvil-component>
+      <anvil-component type="Button" name="delete_button" prop:text="Delete" prop:role='["btn", "btn-sm", "btn-ghost", "btn-icon", "ic-trash"]'></anvil-component>
+    </div>
+    <div class="url" anvil:name="url_row">
+      <code anvil:dom-node="code"></code>
+      <anvil-component type="Button" name="copy_button" prop:text="Copy" prop:role='["btn", "btn-sm", "ic-copy"]'></anvil-component>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="st-tab">
+  <div class="st-kpis">
+    <div class="st-kpi"><small>Uptime 24 h / 30 d</small><b anvil:dom-node="k1"></b><em anvil:dom-node="k1_sub"></em></div>
+    <div class="st-kpi"><small>Avg response, 24 h</small><b anvil:dom-node="k2"></b><em anvil:dom-node="k2_sub"></em></div>
+    <div class="st-kpi"><small>Last check</small><b anvil:dom-node="k3"></b><em anvil:dom-node="k3_sub"></em></div>
+    <div class="st-kpi"><small>Next check</small><b anvil:dom-node="k4"></b><em anvil:dom-node="k4_sub"></em></div>
+  </div>
+  <div class="st-card">
+    <h2 class="st-h">Uptime, last 90 days <b anvil:dom-node="up90"></b></h2>
+    <anvil-component type="VitalRPA.Components.Chart" name="bars" prop:kind="uptimeBars"></anvil-component>
+    <div class="vr-legend st-legend"><span><i class="up"></i>up</span><span><i class="slow"></i>slow / partial</span><span><i class="down"></i>down</span><span><i></i>no data</span></div>
+  </div>
+  <div class="st-card">
+    <h2 class="st-h">Response time
+      <span class="ui-seg st-toggle" role="group" aria-label="Time range">
+        <button type="button" data-range="24h" anvil:name="r24" anvil:on-dom:click="self.range_click">24 h</button>
+        <button type="button" data-range="7d" anvil:name="r7" anvil:on-dom:click="self.range_click">7 days</button>
+      </span>
+    </h2>
+    <anvil-component type="VitalRPA.Components.Chart" name="line" prop:kind="lineChart"></anvil-component>
+    <p class="small muted st-note">Red marks along the bottom are failed checks. Hover the line for each robot visit.</p>
+  </div>
+  <div class="st-grid3">
+    <div class="st-card">
+      <h2 class="st-h"><i class="ic ic-lock"></i> TLS certificate</h2>
+      <p class="ui-error" anvil:name="ssl_nohttps">This site isn't served over HTTPS.</p>
+      <anvil-component type="Label" name="ssl_err" prop:role='["msg-error"]'></anvil-component>
+      <div anvil:name="ssl_ok">
+        <div class="st-big"><span anvil:dom-node="ssl_days"></span> <small>days left</small></div>
+        <dl class="vr-kv"><dt>Expires</dt><dd anvil:dom-node="ssl_exp"></dd><dt>Issuer</dt><dd anvil:dom-node="ssl_issuer"></dd></dl>
+      </div>
+      <p class="small faint st-note">Inspected <span anvil:dom-node="inspected"></span> · warns at 14 days</p>
+    </div>
+    <div class="st-card">
+      <h2 class="st-h"><i class="ic ic-globe"></i> Domain</h2>
+      <anvil-component type="Label" name="dom_none" prop:role='["fine-print"]'></anvil-component>
+      <div class="st-big" anvil:name="dom_big"><span anvil:dom-node="dom_days"></span> <small>days left</small></div>
+      <dl class="vr-kv"><dt>Domain</dt><dd anvil:dom-node="domain"></dd><dt>Renew by</dt><dd anvil:dom-node="dom_exp"></dd></dl>
+      <p class="small faint st-note">From the registry (RDAP) · warns at 30 days</p>
+    </div>
+    <div class="st-card">
+      <h2 class="st-h"><i class="ic ic-shield"></i> Security headers <span class="st-grade" anvil:dom-node="grade" hidden></span></h2>
+      <anvil-component type="RepeatingPanel" name="headers_panel" prop:item_template="VitalRPA.Items.HeaderCheck" prop:role='["st-hdrs"]'></anvil-component>
+      <p class="muted small" anvil:name="headers_none">Read on the next robot visit.</p>
+    </div>
+  </div>
+  <div class="st-grid2">
+    <div class="st-card">
+      <h2 class="st-h"><i class="ic ic-server"></i> The page itself</h2>
+      <dl class="vr-kv">
+        <dt>HTML weight</dt><dd anvil:dom-node="bytes"></dd>
+        <dt>Server says</dt><dd anvil:dom-node="server"></dd>
+        <dt>Keyword</dt><dd anvil:dom-node="keyword"></dd>
+        <dt>Expected status</dt><dd anvil:dom-node="expect"></dd>
+        <dt>Silence alarm</dt><dd anvil:dom-node="quiet"></dd>
+      </dl>
+    </div>
+    <div class="st-card">
+      <h2 class="st-h"><i class="ic ic-bell"></i> Incidents <a href="#incidents/all" class="small st-all">All</a></h2>
+      <anvil-component type="RepeatingPanel" name="inc_panel" prop:item_template="VitalRPA.Items.SiteIncident" prop:role='["st-inc"]'></anvil-component>
+      <p class="muted small" anvil:name="no_inc">No incidents. The robots will open one if something breaks.</p>
+    </div>
+  </div>
+</div>

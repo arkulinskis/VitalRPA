@@ -1,0 +1,40 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap st">
+      <div class="ui-empty" anvil:name="missing">
+        <i class="ic ic-server"></i>
+        <h2>No site here</h2>
+        <anvil-component type="Label" name="missing_text"></anvil-component>
+        <a class="ui-btn" href="#home"><i class="ic ic-back"></i>Back to the console</a>
+      </div>
+      <div anvil:name="main">
+        <a class="st-back" href="#home" anvil:name="back_link"><i class="ic ic-back"></i>Console</a>
+        <div class="st-head">
+          <div class="st-head-l">
+            <div class="st-title"><span class="vr-led" anvil:dom-node="led"></span><anvil-component type="Label" name="name_label" prop:role='["st-name"]'></anvil-component></div>
+            <div class="st-url">
+              <span class="ui-badge vr-st" anvil:dom-node="badge"><span class="vr-led" anvil:dom-node="badge_led"></span><span anvil:dom-node="badge_text"></span></span>
+              <a href="#" target="_blank" rel="noopener noreferrer" anvil:dom-node="url"></a>
+              <span class="ui-badge brand" anvil:dom-node="sample" hidden>Sample</span>
+              <span class="st-tags" anvil:dom-node="tags"></span>
+            </div>
+          </div>
+          <div class="ui-row">
+            <anvil-component type="Button" name="check_button" prop:text="Run check now" prop:role='["btn", "btn-primary", "ic-play"]'></anvil-component>
+            <anvil-component type="Button" name="inspect_button" prop:text="Inspect TLS &amp; domain" prop:tooltip="Certificate + domain" prop:role='["btn", "ic-lock"]'></anvil-component>
+            <anvil-component type="Button" name="pause_button" prop:text="Pause" prop:role='["btn", "ic-pause"]'></anvil-component>
+          </div>
+        </div>
+        <nav class="ui-tabs" aria-label="Site sections">
+          <a href="#home" anvil:name="tab_overview"><i class="ic ic-pulse"></i>Overview</a>
+          <a href="#home" anvil:name="tab_traffic"><i class="ic ic-eye"></i>Traffic</a>
+          <a href="#home" anvil:name="tab_checks"><i class="ic ic-robot"></i>Checks</a>
+          <a href="#home" anvil:name="tab_errors"><i class="ic ic-bug"></i>JS errors<span class="count" anvil:dom-node="err_count" hidden></span></a>
+          <a href="#home" anvil:name="tab_install"><i class="ic ic-code"></i>Install beacon</a>
+          <a href="#home" anvil:name="tab_settings"><i class="ic ic-cog"></i>Settings</a>
+        </nav>
+        <anvil-component type="LinearPanel" name="body" prop:role='["st-body"]'></anvil-component>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

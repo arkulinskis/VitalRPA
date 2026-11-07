@@ -18,7 +18,7 @@ from . import common as C
 DEMO_USERS = [("Mara Lindqvist", C.DEMO_OWNER_EMAIL), ("Theo Martin", "theo.demo@example.com")]
 
 # One profile per demo site: what the simulated robots see. views = page views on a weekday.
-SITES = [
+SITES: list = [
     dict(key="shop", name="Northwind Coffee shop", url="https://shop.northwind-coffee.example/", tags=["northwind", "shop"],
          interval=15, base=185, jitter=45, views=1450, load=1850, headers=5, bytes=91000, server="nginx", issuer="Let's Encrypt",
          ssl_days=63, domain_days=212, quiet=6, errors=6, keyword="Add to cart"),
@@ -269,7 +269,7 @@ def load():
         per_day = 1440 // p["interval"]
         for back in range(DAYS - 1, -1, -1):
             day = today - dt.timedelta(days=back)
-            f = dict(site=s, day=day, checks=0, fails=0, ms_sum=0, views=0, visitors=0, errors=0, load_sum=0, load_n=0,
+            f: dict = dict(site=s, day=day, checks=0, fails=0, ms_sum=0, views=0, visitors=0, errors=0, load_sum=0, load_n=0,
                      ttfb_sum=0, pages={}, refs={}, devices={}, hours=[None] * 24, is_demo=True)
             if p.get("paused") and back < 3:
                 pass

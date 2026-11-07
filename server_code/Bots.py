@@ -321,7 +321,7 @@ def get_bots(sample=None):
              "janitor": "keeps 30 days of raw checks", "digest": "on" if me["digest_on"] else "off for you"}
     bots = []
     for b in BOTS:
-        d = dict(b)
+        d: dict = dict(b)
         d["last"] = runs.get(b["key"])
         d["fleet"] = fleet.get(b["key"], "")
         if b["key"] == "beacon":

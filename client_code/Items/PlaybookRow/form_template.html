@@ -1,0 +1,15 @@
+<div class="bt-pb-host">
+  <div class="bt-pb" anvil:dom-node="row">
+    <anvil-component type="CheckBox" name="on_box" prop:role='["bt-switch"]'></anvil-component>
+    <div class="bt-pb-main">
+      <h3><span anvil:dom-node="name"></span> <span class="ui-badge" anvil:dom-node="sample" hidden>Sample</span></h3>
+      <div class="bt-flow"><span class="if">IF</span><span class="ui-badge brand" anvil:dom-node="trigger"></span><span class="if">ON</span><span class="ui-badge" anvil:dom-node="site"></span><span class="arrow" aria-hidden="true">→</span><anvil-component type="RepeatingPanel" name="acts_panel" prop:item_template="VitalRPA.Items.ActChip" prop:role='["contents"]'></anvil-component></div>
+      <div class="meta" anvil:dom-node="meta"></div>
+    </div>
+    <div class="ui-row bt-btns" anvil:name="buttons">
+      <anvil-component type="Button" name="test_button" prop:text="Test" prop:role='["btn", "btn-sm", "ic-send"]'></anvil-component>
+      <anvil-component type="Button" name="edit_button" prop:text="Edit" prop:role='["btn", "btn-sm", "ic-edit"]'></anvil-component>
+      <anvil-component type="Button" name="delete_button" prop:text="Delete" prop:role='["btn", "btn-sm", "btn-ghost", "btn-icon", "ic-trash"]'></anvil-component>
+    </div>
+  </div>
+</div>

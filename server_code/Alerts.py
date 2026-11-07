@@ -210,7 +210,7 @@ def save_playbook(data):
     actions, err = clean_actions(data.get("actions"))
     if err:
         return C.fail(err)
-    fields = dict(name=name, trigger=trigger, site=site, actions=actions, enabled=data.get("enabled") is not False)
+    fields: dict = dict(name=name, trigger=trigger, site=site, actions=actions, enabled=data.get("enabled") is not False)
     if pb is None:
         if len(app_tables.playbooks.search(owner=me)) >= MAX_PLAYBOOKS:
             return C.fail("You have %d playbooks already. Remove one first." % MAX_PLAYBOOKS)

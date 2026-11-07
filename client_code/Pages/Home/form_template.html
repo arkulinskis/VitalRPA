@@ -1,0 +1,65 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap cn">
+      <div class="ui-page-head">
+        <div>
+          <anvil-component type="Label" name="title" prop:text="Console" prop:role='["page-title"]'></anvil-component>
+          <anvil-component type="Label" name="sub" prop:role='["cn-sub"]'></anvil-component>
+        </div>
+        <div class="ui-row">
+          <anvil-component type="Button" name="refresh_button" prop:text="Refresh" prop:role='["btn", "ic-refresh"]'></anvil-component>
+          <anvil-component type="Button" name="add_button" prop:text="Add site" prop:role='["btn", "btn-primary", "ic-plus"]'></anvil-component>
+        </div>
+      </div>
+
+      <div class="vr-sample" anvil:name="sample_banner">
+        <div class="ui-row vr-sample-text"><i class="ic ic-eye"></i><span><b>You're looking at a sample fleet</b> (<span anvil:dom-node="sample_owner">demo</span>'s agency, fictional sites). It's read-only and the robots keep it live. Add your own site and this becomes your console.</span></div>
+        <div class="ui-row">
+          <a class="ui-btn sm" href="#home" anvil:name="back_link">Back to my fleet</a>
+          <anvil-component type="Button" name="add_first_button" prop:text="Add my first site" prop:role='["btn", "btn-primary", "btn-sm", "ic-plus"]'></anvil-component>
+        </div>
+      </div>
+
+      <div class="cn-kpis">
+        <div class="cn-kpi"><small><i class="ic ic-server"></i>Sites up</small><b anvil:dom-node="k_up"></b><em anvil:dom-node="k_up_sub"></em></div>
+        <div class="cn-kpi"><small><i class="ic ic-bell"></i>Open incidents</small><b anvil:dom-node="k_inc"></b><em anvil:dom-node="k_inc_sub"></em></div>
+        <div class="cn-kpi"><small><i class="ic ic-eye"></i>Visitors today</small><b anvil:dom-node="k_vis"></b><em anvil:dom-node="k_vis_sub"></em></div>
+        <div class="cn-kpi"><small><i class="ic ic-gauge"></i>Avg response</small><b anvil:dom-node="k_avg"></b><em anvil:dom-node="k_avg_sub"></em></div>
+        <div class="cn-kpi"><small><i class="ic ic-lock"></i>Certificates</small><b anvil:dom-node="k_ssl"></b><em anvil:dom-node="k_ssl_sub"></em></div>
+      </div>
+
+      <div class="cn-main">
+        <div class="cn-left">
+          <div class="cn-tools" anvil:name="tools">
+            <anvil-component type="TextBox" name="filter_box" prop:type="search" prop:placeholder="Filter sites" prop:role='["cn-filter"]'></anvil-component>
+            <anvil-component type="RepeatingPanel" name="tags_panel" prop:item_template="VitalRPA.Items.TagChip" prop:role='["contents"]'></anvil-component>
+          </div>
+          <div class="cn-table" anvil:name="table">
+            <div class="cn-row head" aria-hidden="true"><span>Site</span><span>Last 24 h (hourly)</span><span>30 d up</span><span>Response</span><span>Visitors</span><span>SSL</span><span>Beacon</span></div>
+            <anvil-component type="RepeatingPanel" name="sites_panel" prop:item_template="VitalRPA.Items.SiteRow"></anvil-component>
+            <div class="cn-row cn-none" anvil:name="no_match"><span class="muted">No site matches that filter.</span></div>
+          </div>
+          <div class="ui-empty" anvil:name="empty">
+            <i class="ic ic-server"></i>
+            <h2>No sites yet</h2>
+            <p>Add a website and the robots start checking it within minutes.</p>
+            <anvil-component type="Button" name="empty_add_button" prop:text="Add a site" prop:role='["btn", "btn-primary", "ic-plus"]'></anvil-component>
+          </div>
+          <div class="vr-legend"><span><i class="up"></i>up</span><span><i class="slow"></i>slow / partial</span><span><i class="down"></i>down</span><span><i></i>no data</span></div>
+          <div class="cn-foot">
+            <anvil-component type="Label" name="updated" prop:role='["cn-updated"]'></anvil-component>
+            <a href="#home/sample" anvil:name="sample_link">View the sample fleet</a>
+          </div>
+        </div>
+        <aside class="cn-term" aria-label="Robot log">
+          <header><b><i class="ic ic-terminal"></i> Robot log</b><span>UTC</span></header>
+          <div class="cn-log" tabindex="0" role="region" aria-label="Robot log entries">
+            <anvil-component type="RepeatingPanel" name="log_panel" prop:item_template="VitalRPA.Items.LogLine"></anvil-component>
+            <div class="cn-line" anvil:name="log_idle"><time></time><i></i><span><em>idle</em> Waiting for the first robot run…</span></div>
+            <div class="cn-line" aria-hidden="true"><time></time><i class="none"></i><span class="cn-cursor"></span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

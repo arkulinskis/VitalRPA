@@ -1,0 +1,39 @@
+<div class="st-tab">
+  <div class="st-card">
+    <h2 class="st-h"><i class="ic ic-robot"></i> Already working, no code needed</h2>
+    <p class="st-p">The robots load <b anvil:dom-node="host"></b> every <span anvil:dom-node="every"></span> and check the status code, response time, keyword, certificate, domain and security headers. Nothing to install for that.</p>
+  </div>
+  <div class="st-card">
+    <h2 class="st-h"><i class="ic ic-code"></i> Optional: the visitor beacon <b anvil:dom-node="bytes"></b></h2>
+    <p>Paste this just before <code>&lt;/body&gt;</code> on every page (your theme's footer is usually the one place). It adds visitors, real page-load times and JavaScript errors.</p>
+    <div class="vr-copybox">
+      <pre anvil:dom-node="code" tabindex="0" aria-label="The beacon snippet"></pre>
+      <anvil-component type="Button" name="copy_button" prop:text="Copy" prop:role='["btn", "btn-sm", "ic-copy"]'></anvil-component>
+    </div>
+    <ul class="st-facts">
+      <li><i class="ic ic-zap"></i><span>Inline, nothing extra to download, and it waits until your page has finished loading.</span></li>
+      <li><i class="ic ic-send"></i><span>Sends one tiny background ping per page view (<code>sendBeacon</code>): it can't slow the page or block it.</span></li>
+      <li><i class="ic ic-lock"></i><span>No cookies, no local storage, respects Do Not Track. Unique visitors are counted with a daily-changing fingerprint; IP addresses are never stored.</span></li>
+      <li><i class="ic ic-info"></i><span>What it sends: the page path, the referring site, screen width, load time, server response time, and up to 3 JavaScript errors per page.</span></li>
+    </ul>
+  </div>
+  <div class="st-card">
+    <h2 class="st-h"><i class="ic ic-check"></i> Is it working?</h2>
+    <div class="st-verify" role="status"><i anvil:dom-node="v_led"></i><span anvil:dom-node="v_text"></span></div>
+    <div class="ui-row st-verify-btns">
+      <anvil-component type="Button" name="verify_button" prop:text="Check for beacons" prop:role='["btn", "ic-refresh"]'></anvil-component>
+      <anvil-component type="Button" name="test_button" prop:text="Send a test beacon from this browser" prop:role='["btn", "ic-send"]'></anvil-component>
+    </div>
+  </div>
+  <div class="st-card">
+    <h2 class="st-h">Where to paste it</h2>
+    <div class="st-plat">
+      <div><b>WordPress</b>Appearance → Theme file editor → footer.php before &lt;/body&gt;, or any "header &amp; footer scripts" plugin.</div>
+      <div><b>Shopify</b>Online Store → Themes → Edit code → theme.liquid, just before &lt;/body&gt;.</div>
+      <div><b>Wix, Squarespace, Webflow</b>Settings → Custom code → "Body end" / "Footer", on all pages.</div>
+      <div><b>Google Tag Manager</b>New tag → Custom HTML → paste → trigger "All pages".</div>
+      <div><b>Single-page apps</b>After each route change, call <code>vrpa({t:"v"})</code> to count the new page.</div>
+      <div><b>Several sites</b>Each site has its own key. Watching another site? Add it in the console and copy its snippet.</div>
+    </div>
+  </div>
+</div>

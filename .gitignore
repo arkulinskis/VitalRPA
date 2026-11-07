@@ -3,3 +3,4 @@
 __pycache__
 .anvil-data
 /.anvil/
+node_modules

@@ -1,0 +1,8 @@
+<div class="st-tab">
+  <div class="st-card st-table">
+    <div class="st-trow st-thead" aria-hidden="true"><span>Time (UTC)</span><span>Result</span><span>HTTP</span><span>Time</span><span class="hide-sm">Robot</span><span>Problem</span></div>
+    <anvil-component type="RepeatingPanel" name="checks_panel" prop:item_template="VitalRPA.Items.CheckRow"></anvil-component>
+    <p class="muted st-none" anvil:name="no_checks">No checks yet.</p>
+  </div>
+  <p class="small muted">The last 80 robot visits. A failed check is retried after 2 minutes before an incident opens; raw checks are kept for 30 days, daily totals for good.</p>
+</div>

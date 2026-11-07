@@ -1,0 +1,40 @@
+<div class="ui dlg">
+  <h2 class="dlg-h">Watch a new site</h2>
+  <p class="muted">No code needed for this part: the robots load the page like a visitor and read what the server says. The visitor beacon is optional and comes next.</p>
+  <div class="ui-stack">
+    <label class="ui-field"><span>Address</span>
+      <anvil-component type="TextBox" name="url_box" prop:placeholder="https://www.example.com"></anvil-component>
+    </label>
+    <label class="ui-field"><span>Name <em>(optional)</em></span>
+      <anvil-component type="TextBox" name="name_box" prop:placeholder="Company website"></anvil-component>
+    </label>
+    <div class="ui-field"><span>Check every</span>
+      <anvil-component type="DropDown" name="interval_box"></anvil-component>
+      <anvil-component type="Label" name="per_day" prop:role='["as-int"]'></anvil-component>
+    </div>
+    <details class="as-adv">
+      <summary>More checks (keyword, status, speed, tags)</summary>
+      <div class="ui-stack">
+        <label class="ui-field"><span>Text that must be on the page <em>(catches blank or hacked pages)</em></span>
+          <anvil-component type="TextBox" name="keyword_box" prop:placeholder="e.g. Add to cart"></anvil-component>
+        </label>
+        <div class="as-grid">
+          <label class="ui-field"><span>Expected status <em>(blank = any 2xx/3xx)</em></span>
+            <anvil-component type="TextBox" name="status_box" prop:type="number" prop:placeholder="200"></anvil-component>
+          </label>
+          <label class="ui-field"><span>Slow above (ms)</span>
+            <anvil-component type="TextBox" name="slow_box" prop:type="number" prop:text="3000"></anvil-component>
+          </label>
+        </div>
+        <label class="ui-field"><span>Tags <em>(comma separated)</em></span>
+          <anvil-component type="TextBox" name="tags_box" prop:placeholder="client-a, shop"></anvil-component>
+        </label>
+      </div>
+    </details>
+    <anvil-component type="Label" name="message" prop:role='["msg-error"]' prop:visible="false"></anvil-component>
+    <div class="ui-row end">
+      <anvil-component type="Button" name="cancel_button" prop:text="Cancel" prop:role='["btn", "btn-ghost"]'></anvil-component>
+      <anvil-component type="Button" name="save_button" prop:text="Start watching" prop:role='["btn", "btn-primary", "ic-robot"]'></anvil-component>
+    </div>
+  </div>
+</div>

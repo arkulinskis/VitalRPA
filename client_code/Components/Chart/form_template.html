@@ -1,0 +1,21 @@
+---
+custom_component: true
+properties:
+  - name: kind
+    type: string
+    default_value: cells
+    description: "cells, uptimeBars, spark, colbars, blist or lineChart"
+  - name: data
+    type: object
+    description: What the chart draws (a list; see theme/assets/vr-charts.js)
+    default_binding_prop: true
+  - name: opts
+    type: object
+    description: Chart options (lineChart limit; colbars height and label; blist empty text)
+toolbox_item:
+  title: Chart
+  group: VitalRPA
+help_text: |
+  A chart drawn by the VitalRPA engine (vr-charts.js): 24-hour strip, 90-day bars, sparkline, column bars, bar list, line chart.
+---
+<div class="vr-host"><div class="vr-box" anvil:dom-node="box"></div></div>

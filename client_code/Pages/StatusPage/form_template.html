@@ -1,0 +1,43 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="ui-page-head">
+        <div>
+          <anvil-component type="Label" name="title" prop:text="Status page" prop:role='["page-title"]'></anvil-component>
+          <p class="muted">Tell your customers first: a public page with the state of your sites and 90 days of uptime. Share it before people start emailing you.</p>
+        </div>
+        <a class="ui-btn" href="#statuspage" anvil:name="open_link"><i class="ic ic-external"></i>Open my page</a>
+      </div>
+      <div class="sp-ed">
+        <div class="ui-card ui-stack">
+          <div class="ui-field"><span>Address</span>
+            <div class="sp-addr"><span aria-hidden="true">…#status/</span><anvil-component type="TextBox" name="slug_box"></anvil-component></div>
+            <p class="ui-hint">Lowercase letters, digits and dashes.</p>
+          </div>
+          <label class="ui-field"><span>Title</span><anvil-component type="TextBox" name="title_box"></anvil-component></label>
+          <label class="ui-field"><span>A line for your visitors <em>(optional)</em></span>
+            <anvil-component type="TextArea" name="intro_box" prop:placeholder="We check our services every few minutes. Subscribe to our newsletter for maintenance notices." prop:height="90"></anvil-component>
+          </label>
+          <div class="ui-field"><span>Sites on the page</span>
+            <anvil-component type="RepeatingPanel" name="picks_panel" prop:item_template="VitalRPA.Items.SitePick" prop:role='["sp-pick"]'></anvil-component>
+            <p class="muted small" anvil:name="no_sites">Add a site in the console first.</p>
+            <p class="ui-hint">Visitors see the names you gave the sites, never their addresses.</p>
+          </div>
+          <anvil-component type="CheckBox" name="public_box" prop:text="Public: anyone with the link can see it"></anvil-component>
+          <div class="ui-row end"><anvil-component type="Button" name="save_button" prop:text="Save" prop:role='["btn", "btn-primary", "ic-check"]'></anvil-component></div>
+        </div>
+        <div class="ui-card">
+          <h2 class="card-h">What visitors see</h2>
+          <ul class="sp-why muted">
+            <li>One line: all good, slow, maintenance or down.</li>
+            <li>Each site with 90 days of daily uptime.</li>
+            <li>Outages from the last 14 days and how they ended.</li>
+            <li>Nothing else: no addresses, no notes, no traffic.</li>
+          </ul>
+          <a class="ui-btn sm" href="#status/northwind" anvil:name="sample_link"><i class="ic ic-eye"></i>See a sample page</a>
+          <p class="small faint sp-link">Your link: <span class="mono"><span anvil:dom-node="base"></span><b anvil:dom-node="slug"></b></span></p>
+        </div>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

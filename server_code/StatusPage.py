@@ -92,7 +92,7 @@ def save_status_page(data):
         return C.fail("Someone already uses that address. Try another.")
     mine = {s.get_id() for s in app_tables.sites.search(owner=me)}
     ids = [i for i in (data.get("site_ids") or []) if isinstance(i, str) and i in mine][:50]
-    fields = dict(slug=slug, title=title, intro=C.text(data.get("intro"), 400, multiline=True), site_ids=ids, public=bool(data.get("public")))
+    fields: dict = dict(slug=slug, title=title, intro=C.text(data.get("intro"), 400, multiline=True), site_ids=ids, public=bool(data.get("public")))
     if page is None:
         page = app_tables.status_pages.add_row(owner=me, created=C.now(), is_demo=False, **fields)
     else:

@@ -1,0 +1,25 @@
+<div class="in-host">
+  <article class="in-card" anvil:dom-node="card">
+    <div class="in-top"><div class="in-top-l">
+      <div class="ui-row in-badges">
+        <span class="ui-badge" anvil:dom-node="sev"><i class="ic" anvil:dom-node="sev_ic"></i><span anvil:dom-node="sev_t"></span></span>
+        <span class="ui-badge"><i class="ic" anvil:dom-node="kind_ic"></i><span anvil:dom-node="kind_t"></span></span>
+        <span class="ui-badge brand" anvil:dom-node="acked" hidden><i class="ic ic-user"></i>Acknowledged</span>
+        <span class="ui-badge" anvil:dom-node="sample" hidden>Sample</span>
+      </div>
+      <h2 class="in-title" anvil:dom-node="title"></h2>
+      <div class="in-meta"><span><i class="ic ic-clock"></i><span anvil:dom-node="opened"></span></span><span anvil:dom-node="lasted"></span><a href="#bots" anvil:dom-node="subject"></a></div>
+    </div></div>
+    <p class="in-detail" anvil:dom-node="detail"></p>
+    <p class="in-res" anvil:dom-node="res" hidden><i class="ic ic-check"></i><span anvil:dom-node="res_t"></span></p>
+    <anvil-component type="RepeatingPanel" name="notes_panel" prop:item_template="VitalRPA.Items.NoteLine" prop:role='["in-tl"]'></anvil-component>
+    <div class="in-actions" anvil:name="actions">
+      <anvil-component type="Button" name="ack_button" prop:text="I'm on it" prop:role='["btn", "btn-sm", "ic-user"]'></anvil-component>
+      <anvil-component type="Button" name="resolve_button" prop:text="Mark resolved" prop:role='["btn", "btn-sm", "ic-check"]'></anvil-component>
+    </div>
+    <div class="in-note" anvil:name="note_row">
+      <anvil-component type="TextBox" name="note_box" prop:placeholder="Add a note for the timeline"></anvil-component>
+      <anvil-component type="Button" name="note_button" prop:text="Add" prop:role='["btn", "btn-sm"]'></anvil-component>
+    </div>
+  </article>
+</div>

@@ -1,0 +1,43 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap bt">
+      <div class="ui-page-head"><div>
+        <anvil-component type="Label" name="title" prop:text="Robots" prop:role='["page-title"]'></anvil-component>
+        <p class="muted">The routine work, automated: checks around the clock, and playbooks that act the moment something breaks.</p>
+      </div></div>
+      <p class="ui-error" anvil:name="paused_note"><i class="ic ic-pause"></i> An admin has paused all robots for maintenance. Checks resume when they're switched back on.</p>
+      <div class="vr-sample" anvil:name="sample_banner">
+        <span class="vr-sample-text"><i class="ic ic-eye"></i> Playbooks and heartbeats below belong to the sample fleet. Add a site to make your own.</span>
+        <anvil-component type="Button" name="add_button" prop:text="Add a site" prop:role='["btn", "btn-primary", "btn-sm", "ic-plus"]'></anvil-component>
+      </div>
+      <anvil-component type="RepeatingPanel" name="bots_panel" prop:item_template="VitalRPA.Items.RobotCard" prop:role='["bt-robots"]'></anvil-component>
+
+      <section class="bt-sec">
+        <div class="ui-row between bt-sec-head">
+          <div><h2>Playbooks</h2><p class="muted small">If this happens → the robot does that.</p></div>
+          <anvil-component type="Button" name="new_pb_button" prop:text="New playbook" prop:role='["btn", "btn-primary", "ic-plus"]'></anvil-component>
+        </div>
+        <anvil-component type="RepeatingPanel" name="pb_panel" prop:item_template="VitalRPA.Items.PlaybookRow" prop:role='["bt-list"]'></anvil-component>
+        <div class="ui-empty" anvil:name="no_pb"><i class="ic ic-zap"></i><h3>No playbooks yet</h3><p>Tell the robots what to do when something breaks.</p></div>
+      </section>
+
+      <section class="bt-sec">
+        <div class="ui-row between bt-sec-head">
+          <div><h2>Cron heartbeats</h2><p class="muted small">A dead man's switch for backups and scheduled jobs.</p></div>
+          <anvil-component type="Button" name="new_hb_button" prop:text="New heartbeat" prop:role='["btn", "ic-plus"]'></anvil-component>
+        </div>
+        <anvil-component type="RepeatingPanel" name="hb_panel" prop:item_template="VitalRPA.Items.HeartbeatRow" prop:role='["bt-list"]'></anvil-component>
+        <div class="ui-empty" anvil:name="no_hb"><i class="ic ic-heart"></i><h3>No heartbeats yet</h3><p>Add one for your backups or cron jobs: they call a URL when they run, and the watchdog notices when they don't.</p></div>
+      </section>
+
+      <section class="bt-sec">
+        <div class="ui-row bt-sec-head"><h2>What the robots did</h2></div>
+        <div class="bt-log" anvil:name="log_part">
+          <div class="bt-lrow bt-lhead" aria-hidden="true"><span>When (UTC)</span><span class="hide-sm">Playbook</span><span>About</span><span>Did</span><span>Result</span></div>
+          <anvil-component type="RepeatingPanel" name="log_panel" prop:item_template="VitalRPA.Items.ActionRow"></anvil-component>
+        </div>
+        <p class="muted" anvil:name="no_log">Nothing yet. Every email, webhook and recheck the robots do shows up here.</p>
+      </section>
+    </div>
+  </anvil-block>
+</anvil-form>

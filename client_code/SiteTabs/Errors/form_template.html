@@ -1,0 +1,12 @@
+<div class="st-tab">
+  <div class="ui-row between st-errhead">
+    <p class="muted small">JavaScript errors real visitors hit, grouped by message (at most 3 per page view, from the beacon).</p>
+    <anvil-component type="Button" name="clear_button" prop:text="Clear all" prop:role='["btn", "btn-sm", "btn-danger", "ic-trash"]'></anvil-component>
+  </div>
+  <anvil-component type="RepeatingPanel" name="errors_panel" prop:item_template="VitalRPA.Items.JsError" prop:role='["st-errs"]'></anvil-component>
+  <div class="ui-empty" anvil:name="empty">
+    <i class="ic ic-check"></i>
+    <h2>No JavaScript errors</h2>
+    <anvil-component type="Label" name="empty_text"></anvil-component>
+  </div>
+</div>

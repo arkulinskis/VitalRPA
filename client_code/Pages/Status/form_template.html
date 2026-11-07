@@ -1,0 +1,34 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap sp-wrap">
+      <div class="ui-empty" anvil:name="missing">
+        <i class="ic ic-status"></i>
+        <h2>No status page here</h2>
+        <anvil-component type="Label" name="missing_text"></anvil-component>
+        <a class="ui-btn" href="#status/northwind">See a sample status page</a>
+      </div>
+      <div anvil:name="main">
+        <div class="sp-top">
+          <div>
+            <anvil-component type="Label" name="title" prop:role='["page-title"]'></anvil-component>
+            <anvil-component type="Label" name="meta_line" prop:role='["sp-meta"]'></anvil-component>
+            <anvil-component type="Label" name="intro" prop:role='["sp-intro"]'></anvil-component>
+          </div>
+          <a class="ui-btn sm" href="#statuspage" anvil:name="edit_link"><i class="ic ic-edit"></i>Edit</a>
+        </div>
+        <p class="ui-note" anvil:name="private_note"><i class="ic ic-lock"></i> Only you can see this page until you make it public.</p>
+        <div class="sp-banner" anvil:dom-node="banner" role="status"><span class="vr-led" anvil:dom-node="banner_led"></span><span anvil:dom-node="banner_text"></span></div>
+        <div class="sp-sites" anvil:name="sites_part">
+          <anvil-component type="RepeatingPanel" name="sites_panel" prop:item_template="VitalRPA.Items.StatusSite"></anvil-component>
+        </div>
+        <div class="ui-empty" anvil:name="no_sites"><p>No services on this page yet.</p></div>
+        <section class="sp-inc">
+          <h2>Past 14 days</h2>
+          <anvil-component type="RepeatingPanel" name="inc_panel" prop:item_template="VitalRPA.Items.StatusIncident"></anvil-component>
+          <p class="muted" anvil:name="no_inc">No incidents in the past 14 days.</p>
+        </section>
+        <p class="sp-power">Updated <span anvil:dom-node="updated"></span> UTC · checked around the clock by <a href="#landing">VitalRPA</a> robots</p>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

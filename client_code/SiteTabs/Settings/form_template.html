@@ -1,0 +1,27 @@
+<div class="st-tab">
+  <div class="st-card">
+    <h2 class="st-h"><i class="ic ic-cog"></i> What the robots check</h2>
+    <div class="st-settings">
+      <label class="ui-field"><span>Name</span><anvil-component type="TextBox" name="name_box"></anvil-component></label>
+      <label class="ui-field"><span>Address</span><anvil-component type="TextBox" name="url_box"></anvil-component></label>
+      <div class="ui-field"><span>Check every</span><anvil-component type="DropDown" name="interval_box"></anvil-component></div>
+      <label class="ui-field"><span>Slow above (ms)</span><anvil-component type="TextBox" name="slow_box" prop:type="number"></anvil-component></label>
+      <label class="ui-field"><span>Text that must be on the page</span><anvil-component type="TextBox" name="keyword_box" prop:placeholder="optional"></anvil-component></label>
+      <label class="ui-field"><span>Expected HTTP status <em>(blank = any 2xx/3xx)</em></span><anvil-component type="TextBox" name="status_box" prop:type="number"></anvil-component></label>
+      <label class="ui-field"><span>Silence alarm <em>(hours without visitors, 0 = off)</em></span><anvil-component type="TextBox" name="quiet_box" prop:type="number"></anvil-component></label>
+      <label class="ui-field"><span>Tags <em>(comma separated)</em></span><anvil-component type="TextBox" name="tags_box"></anvil-component></label>
+    </div>
+    <div class="ui-row end st-save"><anvil-component type="Button" name="save_button" prop:text="Save" prop:role='["btn", "btn-primary", "ic-check"]'></anvil-component></div>
+  </div>
+  <div class="st-card st-danger">
+    <h2 class="st-h"><i class="ic ic-alert"></i> Careful</h2>
+    <div class="ui-row between">
+      <div><b>New beacon key</b><p class="small muted st-p">The old snippet stops counting. Use it if the key leaked.</p></div>
+      <anvil-component type="Button" name="rotate_button" prop:text="Rotate key" prop:role='["btn", "ic-key"]'></anvil-component>
+    </div>
+    <div class="ui-row between st-danger-row">
+      <div><b>Stop watching this site</b><p class="small muted st-p">Deletes its checks, traffic, errors and incidents.</p></div>
+      <anvil-component type="Button" name="delete_button" prop:text="Delete site" prop:role='["btn", "btn-danger", "ic-trash"]'></anvil-component>
+    </div>
+  </div>
+</div>

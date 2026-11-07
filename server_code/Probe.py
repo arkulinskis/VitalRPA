@@ -187,12 +187,12 @@ def cert_check(host, timeout=8):
         ctx = ssl.create_default_context()
         with socket.create_connection((host, 443), timeout=timeout) as sock:
             with ctx.wrap_socket(sock, server_hostname=host) as s:
-                cert = s.getpeercert()
+                cert = dict(s.getpeercert() or {})
     except ssl.SSLCertVerificationError as e:
         return {"expires": None, "issuer": None, "error": "Certificate not valid: %s" % (e.verify_message or str(e))[:120]}
     except Exception as e:  # noqa: BLE001
         return {"expires": None, "issuer": None, "error": _why(e)}
-    expires = dt.datetime.fromtimestamp(ssl.cert_time_to_seconds(cert["notAfter"]), dt.timezone.utc)
+    expires = dt.datetime.fromtimestamp(ssl.cert_time_to_seconds(str(cert["notAfter"])), dt.timezone.utc)
     issuer = {}
     for part in cert.get("issuer", ()):
         for k, v in part:

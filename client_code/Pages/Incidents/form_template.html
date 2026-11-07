@@ -1,0 +1,28 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap in-wrap">
+      <div class="ui-page-head"><div>
+        <anvil-component type="Label" name="title" prop:text="Incidents" prop:role='["page-title"]'></anvil-component>
+        <p class="muted">Opened by the robots when something breaks, closed by them when it recovers. Your playbooks decide who hears about it.</p>
+      </div></div>
+      <div class="vr-sample" anvil:name="sample_banner">
+        <span class="vr-sample-text"><i class="ic ic-eye"></i> Sample incidents from the demo fleet. Add a site to see your own.</span>
+        <anvil-component type="Button" name="add_button" prop:text="Add a site" prop:role='["btn", "btn-primary", "btn-sm", "ic-plus"]'></anvil-component>
+      </div>
+      <div class="in-sum">
+        <div class="ui-seg" role="group" aria-label="Show incidents">
+          <anvil-component type="Button" name="f_open" prop:text="Open" prop:role='["seg"]'></anvil-component>
+          <anvil-component type="Button" name="f_resolved" prop:text="Resolved" prop:role='["seg"]'></anvil-component>
+          <anvil-component type="Button" name="f_all" prop:text="All" prop:role='["seg"]'></anvil-component>
+        </div>
+        <anvil-component type="Label" name="crit" prop:role='["badge", "badge-bad"]'></anvil-component>
+      </div>
+      <anvil-component type="RepeatingPanel" name="inc_panel" prop:item_template="VitalRPA.Items.IncidentCard" prop:role='["in-list"]'></anvil-component>
+      <div class="ui-empty" anvil:name="empty">
+        <i class="ic ic-check"></i>
+        <anvil-component type="Label" name="empty_title" prop:role='["empty-title"]'></anvil-component>
+        <anvil-component type="Label" name="empty_text"></anvil-component>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

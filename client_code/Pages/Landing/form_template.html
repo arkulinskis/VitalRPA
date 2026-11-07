@@ -1,0 +1,144 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="lp">
+      <section class="lp-hero">
+        <div class="ui-wrap">
+          <div class="lp-top">
+            <div><h1>Robots that watch <em>every</em> website you run</h1></div>
+            <div>
+              <p class="lp-lead">Robotic process automation for your web fleet. VitalRPA checks your sites around the clock: up or down, fast or slow, certificates and domains about to expire, visitors that suddenly stop. When something breaks, your playbooks act: an email, a Slack message, a second-robot recheck. Most of it needs no code at all.</p>
+              <div class="lp-cta">
+                <a class="ui-btn primary lg" href="#auth/signup" anvil:name="guest_cta">Start monitoring, free <i class="ic ic-arrow"></i></a>
+                <a class="ui-btn primary lg" href="#home" anvil:name="member_cta">Open the console <i class="ic ic-arrow"></i></a>
+                <a class="ui-btn lg" href="#status/northwind"><i class="ic ic-status"></i>See a live status page</a>
+              </div>
+              <div class="lp-proof"><span><i class="ic ic-check"></i>24 check-ins a day per site (or every 5 min)</span><span><i class="ic ic-check"></i>No-code checks</span><span><i class="ic ic-check"></i>Beacon under 1 KB, no cookies</span></div>
+            </div>
+          </div>
+          <div class="lp-console" aria-hidden="true">
+            <div class="lp-win">
+              <div class="lp-bar"><i></i><i></i><i></i><span>vitalrpa · console</span><em>● robots on patrol</em></div>
+              <div class="lp-kp"><div>Sites up<b>7<span class="faint">/8</span></b></div><div>Incidents<b class="bad">1</b></div><div>Visitors today<b>2,418</b></div></div>
+              <div class="lp-rows">
+                  <div class="lp-row"><span class="nm"><span class="vr-led s-up"></span><b>shop.northwind.ca</b></span><div class="vr-cells"><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i></div><span class="ms">184 ms</span></div>
+                  <div class="lp-row hit"><span class="nm"><span class="vr-led s-down"></span><b>harbordental.com</b></span><div class="vr-cells"><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="down"></i><i class="down"></i></div><span class="ms">502</span></div>
+                  <div class="lp-row"><span class="nm"><span class="vr-led s-slow"></span><b>pinecrest-realty.ca</b></span><div class="vr-cells"><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="up"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="up"></i><i class="up"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="up"></i><i class="up"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="slow"></i><i class="up"></i><i class="slow"></i><i class="slow"></i></div><span class="ms">2.7 s</span></div>
+                  <div class="lp-row"><span class="nm"><span class="vr-led s-up"></span><b>api.atlasfreight.io</b></span><div class="vr-cells"><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i></div><span class="ms">92 ms</span></div>
+                  <div class="lp-row"><span class="nm"><span class="vr-led s-up"></span><b>littlefern.shop</b></span><div class="vr-cells"><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i><i class="up"></i></div><span class="ms">310 ms</span></div>
+                  <span class="lp-scan"></span>
+              </div>
+            </div>
+            <div class="lp-play">
+              <div class="hd"><span>Playbook · site down</span><b>no code</b></div>
+                <div class="lp-step2"><i class="bad">!</i><span><span class="bad">14:05 GET harbordental → 502</span><small>robot 1, Montréal</small></span></div>
+                <div class="lp-step2"><i class="w">↻</i><span><span class="w">14:06 second robot rechecks</span><small>robot 2, Frankfurt: still failing</small></span></div>
+                <div class="lp-step2"><i class="w">✉</i><span><span class="w">14:07 email → oncall@</span><small>with the error and a screenshot</small></span></div>
+                <div class="lp-step2"><i class="w">#</i><span><span class="w">14:07 Slack → #web</span><small>&quot;harbordental is down (502)&quot;</small></span></div>
+                <div class="lp-step2"><i class="ok">✓</i><span><span class="ok">14:19 back up, 211 ms</span><small>incident closed, 14 min</small></span></div>
+              <span class="lp-chip">&lt;script&gt; <b>&lt; 1 KB</b> · no cookies</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section ytf" id="watch">
+        <div class="ui-wrap">
+          <div class="ytf-in">
+            <div class="ytf-copy">
+              <h2>See VitalRPA in about a minute</h2>
+              <p>A short video tour of what VitalRPA does and how it works.</p>
+              <a class="ytf-link" href="https://www.youtube.com/watch?v=W0yKLujjtPk" target="_blank" rel="noopener"><svg viewBox="0 0 28 20" width="20" height="14" aria-hidden="true"><rect width="28" height="20" rx="5" fill="#FF0033"/><path d="M11.2 5.8v8.4l7.3-4.2z" fill="#fff"/></svg>Watch on YouTube &#8599;</a>
+            </div>
+            <div>
+              <div class="ytf-frame" anvil:dom-node="yt_frame">
+                <button type="button" class="ytf-cover" anvil:dom-node="yt_cover" aria-label="Play the VitalRPA video (1:14)">
+                  <img src="_/theme/yt-cover.jpg" alt="" loading="lazy" decoding="async" width="960" height="540">
+                  <span class="ytf-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.3.3 34 .3 34 .3s-21.3 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6c5.2 1.4 26.5 1.4 26.5 1.4s21.3 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#FF0033"/><path d="M45 24 27 14v20z" fill="#fff"/></svg></span>
+                  <span class="ytf-len">1:14</span>
+                </button>
+              </div>
+              <p class="ytf-note">The video loads from YouTube when you press play.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section" id="how">
+        <div class="ui-wrap">
+          <div class="lp-head"><h2>From "is it up?" to "it's handled" in three steps</h2><p>Start with the address. Add the beacon later, or never.</p></div>
+          <div class="lp-steps">
+            <div class="lp-step"><h3>Add your sites</h3><p>Paste the address. The robots load it like a visitor every hour (or every 5 minutes) and read what the server says: status code, response time, the text that must be on the page.</p><code>no code</code></div>
+            <div class="lp-step"><h3>Paste one line, if you like</h3><p>The optional beacon adds real visitors, real page-load times and the JavaScript errors people hit. It waits until your page has loaded and weighs less than your favicon.</p><code>&lt;script&gt; &lt; 1 KB</code></div>
+            <div class="lp-step"><h3>Let the playbooks handle it</h3><p>If a site goes down, the robot rechecks from a second run, emails the on-call and posts to Slack or Teams. It writes everything to the incident timeline.</p><code>if → then</code></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section alt">
+        <div class="ui-wrap">
+          <div class="lp-head"><h2>Everything a sysadmin checks at 3 a.m.</h2><p>Without being awake at 3 a.m.</p></div>
+          <div class="lp-feats">
+            <div class="lp-feat"><i class="ic ic-pulse"></i><h3>Uptime, 24× a day <span class="tag">no code</span></h3><p>Hourly by default, every 5 minutes if it matters. A failure is retried before anyone is woken up.</p></div>
+            <div class="lp-feat"><i class="ic ic-search"></i><h3>Keyword check <span class="tag">no code</span></h3><p>Catch the page that answers &quot;200 OK&quot; but is blank, broken or defaced.</p></div>
+            <div class="lp-feat"><i class="ic ic-lock"></i><h3>Certificates <span class="tag">no code</span></h3><p>Warned 14 days before a TLS certificate expires, or the minute it&#x27;s broken.</p></div>
+            <div class="lp-feat"><i class="ic ic-globe"></i><h3>Domain expiry <span class="tag">no code</span></h3><p>Read from the registry. Nobody loses a domain to an expired card again.</p></div>
+            <div class="lp-feat"><i class="ic ic-shield"></i><h3>Security headers <span class="tag">no code</span></h3><p>An A to F grade for HSTS, CSP, frame and referrer policies.</p></div>
+            <div class="lp-feat"><i class="ic ic-heart"></i><h3>Cron heartbeats <span class="tag">one curl</span></h3><p>Backups and scheduled jobs call a URL. Silence opens an incident.</p></div>
+            <div class="lp-feat"><i class="ic ic-eye"></i><h3>Real visitors &amp; speed <span class="tag">beacon</span></h3><p>Page views, unique visitors, load time and server response from real browsers.</p></div>
+            <div class="lp-feat"><i class="ic ic-bug"></i><h3>JavaScript errors <span class="tag">beacon</span></h3><p>The errors your visitors hit, grouped, counted, with the page they were on.</p></div>
+            <div class="lp-feat"><i class="ic ic-bell"></i><h3>Silence alarm <span class="tag">beacon</span></h3><p>Visitors stopped arriving? The site may be broken for humans only, or the snippet was removed.</p></div>
+            <div class="lp-feat"><i class="ic ic-zap"></i><h3>Playbooks <span class="tag">automation</span></h3><p>If this, then that: email, webhooks for Slack, Teams, Discord or Zapier, and robot rechecks.</p></div>
+            <div class="lp-feat"><i class="ic ic-status"></i><h3>Public status page <span class="tag">share</span></h3><p>A page your customers can bookmark, with 90 days of uptime per service.</p></div>
+            <div class="lp-feat"><i class="ic ic-terminal"></i><h3>Incident timeline <span class="tag">teamwork</span></h3><p>Opened and closed by the robots; acknowledge, add notes, see who did what.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section">
+        <div class="ui-wrap lp-weight">
+          <div>
+            <h2>The beacon: lighter than your favicon</h2>
+            <p class="muted">Monitoring that slows the site down defeats the point. The VitalRPA beacon is a few hundred bytes of inline code that starts after your page has loaded.</p>
+            <ul class="lp-list">
+              <li><i class="ic ic-zap"></i><span>Inline: no extra file, no extra connection before your content.</span></li>
+              <li><i class="ic ic-clock"></i><span>Waits for the load event, then sends one background ping.</span></li>
+              <li><i class="ic ic-lock"></i><span>No cookies, no storage, Do Not Track respected, IPs never stored.</span></li>
+            </ul>
+          </div>
+          <div>
+            <div class="lp-wbars" role="img" aria-label="Size comparison: VitalRPA beacon about 0.8 KB, a small favicon about 4 KB, a typical analytics tag 40 to 100 KB">
+              <div class="lp-wbar us"><small><b>VitalRPA beacon</b><span>~0.8 KB</span></small><div style="width:1.1%"></div></div>
+              <div class="lp-wbar"><small><span>A 32×32 favicon</span><span>~4 KB</span></small><div style="width:5.5%"></div></div>
+              <div class="lp-wbar"><small><span>A typical analytics tag</span><span>40–100 KB</span></small><div style="width:100%"></div></div>
+            </div>
+            <div class="lp-code">&lt;script&gt;!function(w,d,n,k,u){if(n.doNotTrack=="1"…<b>n.sendBeacon(q)</b>…d.readyState=="complete"?v():w.addEventListener("load",v)}(…)&lt;/script&gt;</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section alt">
+        <div class="ui-wrap">
+          <div class="lp-head c"><h2>Questions</h2></div>
+          <div class="lp-faq">
+            <details><summary>Do I have to install anything?</summary><p>No. Uptime, response time, keyword, certificate, domain and security-header checks all run from our servers without touching your site. The beacon is optional and only needed for visitors, page speed and JavaScript errors.</p></details>
+            <details><summary>Will the snippet slow my site down?</summary><p>No. It&#x27;s about 800 bytes of inline code, so there&#x27;s no extra file to download. It does nothing until your page has finished loading, then sends one background ping with navigator.sendBeacon, which the browser handles after everything else.</p></details>
+            <details><summary>What does the beacon collect?</summary><p>The page path, the site the visitor came from, the screen width, how long the page took to load, and up to 3 JavaScript error messages per page. No cookies, nothing stored in the browser, and it respects Do Not Track. Unique visitors are counted with a fingerprint whose secret changes every day; IP addresses are never stored.</p></details>
+            <details><summary>How often do the robots check?</summary><p>Every site has its own rhythm: every 5, 15 or 30 minutes, hourly (24 check-ins a day, the default) or less often. While a site is down, the robots look every 5 minutes so you know the moment it&#x27;s back.</p></details>
+            <details><summary>How will I hear about problems?</summary><p>Through playbooks. Every new account starts with &quot;email me when something breaks, and when it&#x27;s fixed&quot;. Add webhooks for Slack, Microsoft Teams, Discord or Zapier, a morning digest, or a second-robot recheck before anyone is paged.</p></details>
+            <details><summary>Can I try it before adding my own site?</summary><p>Yes. Sign up and you land in a sample fleet: eight fictional sites with outages, slow pages, an expiring certificate and a late backup, so you can see every feature working. Add your first site and the console becomes yours.</p></details>
+            <details><summary>Is it free?</summary><p>Yes, during early access: up to 50 sites and 50 heartbeats per account.</p></details>
+          </div>
+        </div>
+      </section>
+
+      <section class="lp-section">
+        <div class="ui-wrap">
+          <div class="lp-band">
+            <div><h2>Put robots on your websites tonight</h2><p>Add an address, and the first check runs within a minute.</p></div>
+            <a class="ui-btn primary lg" href="#auth/signup" anvil:name="band_link"><span anvil:dom-node="band_text">Start monitoring, free</span></a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </anvil-block>
+</anvil-form>

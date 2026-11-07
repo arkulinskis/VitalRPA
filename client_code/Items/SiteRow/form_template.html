@@ -1,0 +1,11 @@
+<div class="cn-row-host">
+  <a class="cn-row" href="#home" anvil:dom-node="row">
+    <div class="cn-name"><span class="vr-led" anvil:dom-node="led"></span><div><b anvil:dom-node="name"></b><small anvil:dom-node="host"></small></div></div>
+    <div class="cn-strip"><span class="cn-label">Last 24 h</span><anvil-component type="VitalRPA.Components.Chart" name="strip"></anvil-component></div>
+    <div><span class="cn-label">30 days</span><span class="mono" anvil:dom-node="up30"></span></div>
+    <div class="cn-resp"><div><span class="cn-label">Response</span><span class="mono" anvil:dom-node="resp"></span></div><anvil-component type="VitalRPA.Components.Chart" name="spark" prop:kind="spark"></anvil-component></div>
+    <div><span class="cn-label">Visitors</span><span class="mono" anvil:dom-node="visitors"></span></div>
+    <div class="cn-ssl"><span anvil:dom-node="ssl"></span></div>
+    <div class="cn-bcn"><span anvil:dom-node="beacon"></span></div>
+  </a>
+</div>

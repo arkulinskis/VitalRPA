@@ -1,0 +1,32 @@
+<div class="st-tab">
+  <div class="ui-empty" anvil:name="empty">
+    <i class="ic ic-eye"></i>
+    <h2>No visitor data yet</h2>
+    <p>Uptime works without any code. For visitors, page speed and JavaScript errors, paste the tiny beacon (under 1 KB) into your pages.</p>
+    <div anvil:name="install_link"><a class="ui-btn primary" href="#home" anvil:dom-node="install_a"><i class="ic ic-code"></i>Install the beacon</a></div>
+  </div>
+  <div anvil:name="data_part">
+    <div class="st-kpis">
+      <div class="st-kpi"><small>Page views, 7 days</small><b anvil:dom-node="k1"></b><em anvil:dom-node="k1_sub"></em></div>
+      <div class="st-kpi"><small>Visitors, 7 days</small><b anvil:dom-node="k2"></b><em anvil:dom-node="k2_sub"></em></div>
+      <div class="st-kpi"><small>Avg page load</small><b anvil:dom-node="k3"></b><em anvil:dom-node="k3_sub"></em></div>
+      <div class="st-kpi"><small>Avg server response</small><b anvil:dom-node="k4"></b><em anvil:dom-node="k4_sub"></em></div>
+    </div>
+    <div class="st-card">
+      <h2 class="st-h">Page views per day, 30 days <b anvil:dom-node="views30"></b></h2>
+      <anvil-component type="VitalRPA.Components.Chart" name="days_chart" prop:kind="colbars"></anvil-component>
+      <div class="vr-axis"><span anvil:dom-node="first_day"></span><span>today</span></div>
+    </div>
+    <div class="st-card">
+      <h2 class="st-h">Today by hour (UTC) <b anvil:dom-node="today"></b></h2>
+      <anvil-component type="VitalRPA.Components.Chart" name="hours_chart" prop:kind="colbars"></anvil-component>
+      <div class="vr-axis"><span>00:00</span><span>12:00</span><span>23:00</span></div>
+    </div>
+    <div class="st-grid3">
+      <div class="st-card"><h2 class="st-h">Top pages, 7 days</h2><anvil-component type="VitalRPA.Components.Chart" name="pages_chart" prop:kind="blist"></anvil-component></div>
+      <div class="st-card"><h2 class="st-h">Where visitors come from</h2><anvil-component type="VitalRPA.Components.Chart" name="refs_chart" prop:kind="blist"></anvil-component></div>
+      <div class="st-card"><h2 class="st-h">Devices</h2><anvil-component type="VitalRPA.Components.Chart" name="devices_chart" prop:kind="blist"></anvil-component>
+        <p class="small faint st-note">From screen width: phone &lt; 700 px, tablet &lt; 1100 px.</p></div>
+    </div>
+  </div>
+</div>
