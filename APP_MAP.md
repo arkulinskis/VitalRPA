@@ -7,7 +7,7 @@ around them with an offset instead of whole files.
 
 **What it is:** Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.
 **Live:** https://vitalrpa.com · **Repo:** github.com/arkulinskis/VitalRPA · **Layout:** native Anvil Forms · **Deploy:** master
-**Guide** (workflow, design rules, product knowledge): `VitalRPA/.claude/skills/vitalrpa/SKILL.md`
+**Guide** (workflow, design rules, product knowledge): `.claude/skills/vitalrpa/SKILL.md`
 
 ## How to change it
 
