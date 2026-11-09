@@ -881,10 +881,9 @@ db_schema:
     server: full
     title: Visits
 metadata:
-  description: 'Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under
-    1 KB, and playbooks that act when something breaks.'
-  logo_img: asset:icon-512.png
-  title: 'VitalRPA: website monitoring robots for busy teams'
+  description: "Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks."
+  logo_img: "asset:icon-512.png"
+  title: "VitalRPA: website monitoring robots for busy teams"
 name: VitalRPA
 native_deps:
   head_html: |
@@ -908,7 +907,7 @@ native_deps:
     <meta name="twitter:description" content="Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.">
     <meta name="twitter:image" content="https://vitalrpa.com/_/theme/og-image.png">
     <link rel="alternate" type="text/plain" title="VitalRPA for AI assistants" href="https://vitalrpa.com/llms.txt">
-    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://vitalrpa.com/#app", "name": "VitalRPA", "url": "https://vitalrpa.com/", "description": "Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.", "image": "https://vitalrpa.com/_/theme/og-image.png", "inLanguage": "en", "publisher": {"@id": "https://arkvital.com/#org"}, "keywords": "website monitoring, uptime monitor, SSL certificate expiry alert, domain expiry monitoring, status page, website robots, RPA for websites, real user monitoring, Slack alerts website down", "applicationCategory": "BusinessApplication", "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript and a modern web browser", "featureList": ["24 check-ins a day by default, every 5 minutes when it matters", "Status, response time, keyword, TLS certificate, domain expiry and security headers", "A visitor beacon under 1 KB with no cookies", "Playbooks: email, webhooks for Slack, Teams, Discord and Zapier, rechecks", "A console with 24-hour strips, 30-day uptime and a robot log", "Public status pages"], "audience": {"@type": "Audience", "audienceType": "Agencies, freelancers and teams who run many websites"}}, {"@type": "WebSite", "@id": "https://vitalrpa.com/#site", "url": "https://vitalrpa.com/", "name": "VitalRPA", "publisher": {"@id": "https://arkvital.com/#org"}}, {"@type": "Organization", "@id": "https://arkvital.com/#org", "name": "Arkvital", "url": "https://arkvital.com", "email": "arkvital@outlook.com", "address": {"@type": "PostalAddress", "addressLocality": "Montreal", "addressRegion": "QC", "addressCountry": "CA"}}]}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "@id": "https://vitalrpa.com/#app", "name": "VitalRPA", "url": "https://vitalrpa.com/", "description": "Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.", "image": "https://vitalrpa.com/_/theme/og-image.png", "serviceType": "Robots that watch your websites and act when something breaks", "provider": {"@id": "https://arkvital.com/#org"}, "areaServed": "Worldwide", "availableChannel": {"@type": "ServiceChannel", "serviceUrl": "https://vitalrpa.com/", "name": "Web browser"}, "availableLanguage": "en", "audience": {"@type": "Audience", "audienceType": "Agencies, freelancers and teams who run many websites"}}, {"@type": "WebSite", "@id": "https://vitalrpa.com/#site", "url": "https://vitalrpa.com/", "name": "VitalRPA", "publisher": {"@id": "https://arkvital.com/#org"}}, {"@type": "Organization", "@id": "https://arkvital.com/#org", "name": "Arkvital", "url": "https://arkvital.com", "email": "arkvital@outlook.com", "address": {"@type": "PostalAddress", "addressLocality": "Montreal", "addressRegion": "QC", "addressCountry": "CA"}}]}</script>
     <!-- seo:end -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#ffffff">
