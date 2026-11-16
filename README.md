@@ -41,7 +41,7 @@ FAQ), public status pages (`#status/<slug>`, e.g. the sample `#status/northwind`
 - **Profile:** name, theme, password reset, alert email, morning digest.
 - New accounts get two playbooks: "email me when something breaks" and "...when it's fixed".
 
-**For admins** (`#admin`; arkulinskis@gmail.com becomes an admin on first sign-in):
+**For admins** (`#admin`; your admin email (App Secret `admin_emails`) becomes an admin on first sign-in):
 - **Robots:** totals (sites, heartbeats, checks and page views today, open incidents), pause/resume all robots, run any
   robot now, recent runs.
 - **Feedback inbox, Users, Demo data** (load/remove the sample fleet), as in every template app.
@@ -70,7 +70,7 @@ Heartbeats ping `/_/api/hb?t=<token>`.
 2. **Users** service: email + password and "Continue with Google", sign-up allowed (already set in `anvil.yaml`; check it). **Email** service: on.
 3. If it shows a **Schema Mismatch** alert, choose **"The schema of the source code is correct"** so Anvil creates the tables.
 4. **Scheduled Tasks**: check that `bot_tick` (every 5 minutes) and `bot_daily` (daily 06:00) are listed; add them there if not.
-5. **Run** it and sign up with **arkulinskis@gmail.com** straight away (that account becomes the admin).
+5. **Run** it and sign up with **your admin email** (App Secret `admin_emails`) straight away (that account becomes the admin).
 6. **Publish** (Publish → public URL, or your own domain).
 
 <!-- libraries:start -->

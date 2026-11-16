@@ -48,13 +48,13 @@
     // the admin (ADMIN_EMAILS address; made on first run in this local database)
     await visit('#auth');
     const pw = 'Hb-local-admin-Kq7-2026';
-    i = inputs(); type(i[0], 'arkulinskis@gmail.com'); type(i[1], pw);
+    i = inputs(); type(i[0], 'admin@example.com'); type(i[1], pw);
     $$('.anvil-role-btn-block button').find((b) => /Sign in/.test(b.textContent)).click();
     await sleep(3000);
     if (location.hash !== '#home') {
       $$('.ui-seg button').find((b) => /Create account/.test(b.textContent)).click();
       await sleep(500);
-      i = inputs(); type(i[0], 'Local Admin'); type(i[1], 'arkulinskis@gmail.com'); type(i[2], pw);
+      i = inputs(); type(i[0], 'Local Admin'); type(i[1], 'admin@example.com'); type(i[2], pw);
       const t2 = $('.au-card input[type=checkbox]'); if (t2 && !t2.checked) t2.click();
       $$('.anvil-role-btn-block button').find((b) => /Create account/.test(b.textContent)).click();
     }
