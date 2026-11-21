@@ -52,17 +52,17 @@ def _pct(ok, total):
 
 
 def _sec(site):
-    h = site["sec_headers"] or {}
-    items = [{"key": k, "name": n, "why": why, "ok": bool(h.get(k))} for k, n, why in Probe.SEC_HEADERS]
-    score = sum(1 for i in items if i["ok"])
-    https = bool(h.get("https", (site["url"] or "").startswith("https://")))
-    grade = "A" if score >= 5 and https else "B" if score >= 4 and https else "C" if score >= 3 and https else "D" if score >= 2 else "F"
-    return {"items": items, "score": score, "grade": grade if h else None, "https": https}
+    return Probe.sec_grade(site["sec_headers"], site["url"] or "")
+
+
+def _counted(checks):
+    """Leave out checks that didn't count (the robot's own connection was down)."""
+    return [c for c in checks if c["source"] != Monitor.NETWORK_SOURCE]
 
 
 def summary(s, checks, dailies, me, now):
     """One site for the console."""
-    checks = sorted(checks, key=lambda c: C.utc(c["at"]))
+    checks = sorted(_counted(checks), key=lambda c: C.utc(c["at"]))
     ok24 = sum(1 for c in checks if c["ok"])
     tot30 = sum(d["checks"] or 0 for d in dailies)
     fail30 = sum(d["fails"] or 0 for d in dailies)
@@ -94,7 +94,7 @@ def _feed(sites, checks, owners, now, limit=36):
     lines = []
     for c in sorted(checks, key=lambda c: C.utc(c["at"]), reverse=True)[:limit]:
         sid = c["site"].get_id()
-        lvl = "bad" if not c["ok"] else "warn" if c["slow"] else "ok"
+        lvl = "warn" if c["source"] == Monitor.NETWORK_SOURCE else "bad" if not c["ok"] else "warn" if c["slow"] else "ok"
         res = ("%s %s ms" % (c["code"], c["ms"])) if c["code"] else (c["error"] or "no answer")
         lines.append({"at": C.iso(c["at"]), "bot": "uptime" if c["source"] == "robot" else c["source"] or "robot", "level": lvl,
                       "text": "GET %s → %s" % (names.get(sid, "?"), res) + ("  (%s)" % c["error"] if c["error"] and c["code"] else "")})
@@ -137,6 +137,7 @@ def get_console(sample=None):
     open_inc = []
     for o in owners:
         open_inc += list(app_tables.incidents.search(owner=o, resolved=None))
+    checks = _counted(checks)
     ms = [c["ms"] for c in checks if c["ok"] and c["ms"]]
     totals = {"sites": len(out), "up": sum(1 for s in out if s["status"] == "up"),
               "slow": sum(1 for s in out if s["status"] == "slow"),
@@ -205,7 +206,7 @@ def detail(s, me):
     tot = sum(b["checks"] for b in bars)
     fails = sum(b["fails"] for b in bars)
     step = max(1, len(checks) // 300)
-    series = [[C.iso(c["at"]), c["ms"], bool(c["ok"]), bool(c["slow"])] for c in checks[::step]]
+    series = [[C.iso(c["at"]), c["ms"], bool(c["ok"]), bool(c["slow"])] for c in _counted(checks)[::step]]
     recent = [{"at": C.iso(c["at"]), "ok": bool(c["ok"]), "slow": bool(c["slow"]), "code": c["code"], "ms": c["ms"],
                "error": c["error"], "source": c["source"]} for c in reversed(checks[-80:])]
     errs = sorted(app_tables.jserrors.search(site=s), key=lambda r: C.utc(r["last"]), reverse=True)
@@ -224,8 +225,8 @@ def detail(s, me):
         "site_key": s["site_key"] if editable else "vr_xxxxxxxxxx", "endpoint": C.origin() + "/_/api/b",
         "settings": {"name": s["name"], "url": s["url"], "interval_min": s["interval_min"], "keyword": s["keyword"] or "",
                      "expect_status": s["expect_status"], "slow_ms": s["slow_ms"] or 3000, "quiet_hours": s["quiet_hours"] or 0,
-                     "tags": list(s["tags"] or []), "paused": bool(s["paused"])},
-        "intervals": Monitor.INTERVALS,
+                     "tags": list(s["tags"] or []), "paused": bool(s["paused"]), "confirm_checks": Monitor.confirm_checks(s)},
+        "intervals": Monitor.INTERVALS, "confirm_choices": Monitor.CONFIRM_CHOICES,
     })
     return base
 
@@ -264,6 +265,12 @@ def _clean(data, current=None):
         return None, "The silence alarm is between 0 (off) and 168 hours."
     if expect is not None and not 100 <= expect <= 599:
         return None, "An HTTP status is a number between 100 and 599."
+    try:
+        confirm = int(data.get("confirm_checks") or (Monitor.confirm_checks(current) if current else 2))
+    except (TypeError, ValueError):
+        return None, "Pick after how many failed checks the robots should alert you."
+    if confirm not in Monitor.CONFIRM_CHOICES:
+        return None, "Alert after 1, 2, 3 or 5 failed checks in a row."
     raw_tags = data.get("tags") or []
     if isinstance(raw_tags, str):
         raw_tags = raw_tags.split(",")
@@ -273,7 +280,8 @@ def _clean(data, current=None):
         if t and t not in tags:
             tags.append(t)
     return {"name": name, "url": url, "interval_min": interval, "keyword": C.text(data.get("keyword"), 80) or None,
-            "expect_status": expect, "slow_ms": slow_ms, "quiet_hours": quiet, "tags": tags[:MAX_TAGS]}, None
+            "expect_status": expect, "slow_ms": slow_ms, "quiet_hours": quiet, "tags": tags[:MAX_TAGS],
+            "confirm_checks": confirm}, None
 
 
 @anvil.server.callable(require_user=True)
@@ -289,8 +297,11 @@ def add_site(data):
         return C.fail("You're already watching that address.")
     if C.rate_limited("add_site", 30, 3600):
         return C.fail("That's a lot of new sites in one hour. Try again a bit later.")
+    confirm = fields.pop("confirm_checks")
     s = app_tables.sites.add_row(owner=me, site_key=C.token(10, "vr_"), paused=False, status="pending", status_since=C.now(),
                                  next_check=C.now(), fails=0, slow_streak=0, created=C.now(), is_demo=False, **fields)
+    if confirm != 2:
+        Monitor.set_confirm_checks(s, confirm)  # its own statement: works before the new column is accepted too
     Alerts.default_playbook(me)
     return C.ok(site_id=s.get_id())
 
@@ -307,7 +318,10 @@ def update_site(site_id, data):
         return C.fail(err)
     if fields["url"] != s["url"] or fields["interval_min"] != s["interval_min"]:
         fields["next_check"] = C.now()
+    confirm = fields.pop("confirm_checks")
     s.update(**fields)
+    if confirm != Monitor.confirm_checks(s):
+        Monitor.set_confirm_checks(s, confirm)
     return C.ok(site=detail(s, me))
 
 

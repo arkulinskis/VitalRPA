@@ -43,6 +43,47 @@ def reason(code):
     return REASONS.get(code, "")
 
 
+def sec_grade(headers, url=""):
+    """{items, score, grade, https} for a security-header map (Probe.http_check "headers"). Shared by the site page,
+    client reports and the free check-up. grade is None when the headers were never read."""
+    h = headers or {}
+    items = [{"key": k, "name": n, "why": why, "ok": bool(h.get(k))} for k, n, why in SEC_HEADERS]
+    score = sum(1 for i in items if i["ok"])
+    https = bool(h.get("https", (url or "").startswith("https://")))
+    grade = "A" if score >= 5 and https else "B" if score >= 4 and https else "C" if score >= 3 and https else "D" if score >= 2 else "F"
+    return {"items": items, "score": score, "grade": grade if h else None, "https": https}
+
+
+# ----------------------------------------------------------------------------------------------- the robot's own line
+REFERENCES = ("https://www.google.com/generate_204", "https://www.cloudflare.com/cdn-cgi/trace")
+_ref: dict = {"at": 0.0, "ok": True}
+
+
+def reference_ok(max_age_s=60):
+    """Is the robot's own internet connection fine? Loads two always-up addresses (cached for a minute). When both
+    fail, a failed site check says more about the robot than the site, so Monitor doesn't count it ("calm robots")."""
+    if SIMULATE_ALL:
+        return True
+    now = time.monotonic()
+    if _ref["at"] and now - _ref["at"] < max_age_s:
+        return _ref["ok"]
+    ok = False
+    for url in REFERENCES:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=6) as r:
+                r.read(2000)
+            ok = True
+            break
+        except urllib.error.HTTPError:
+            ok = True  # an HTTP answer at all means the line works
+            break
+        except Exception:  # noqa: BLE001
+            continue
+    _ref.update(at=now, ok=ok)
+    return ok
+
+
 # ----------------------------------------------------------------------------------------------- addresses
 def _private_ip(host):
     try:

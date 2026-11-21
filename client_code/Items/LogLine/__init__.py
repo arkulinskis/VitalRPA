@@ -14,3 +14,6 @@ class LogLine(LogLineTemplate):
         n["at"].textContent = vr.hhmm(i.get("at"))
         n["bot"].textContent = i.get("bot") or ""
         n["text"].textContent = " " + (i.get("text") or "")
+        if i.get("delay") is not None:  # the check-up types its log out line by line
+            n["line"].classList.add("ck-type")
+            n["line"].style.animationDelay = "%dms" % int(i["delay"])

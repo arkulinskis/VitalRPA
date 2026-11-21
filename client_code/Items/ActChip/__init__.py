@@ -6,13 +6,13 @@ ACT = {"email": ("mail", "Email"), "webhook": ("link", "Webhook"), "recheck": ("
 
 
 class ActChip(ActChipTemplate):
-    """Robots -> playbook: one action (email to whom, which webhook, a second-robot recheck)."""
+    """Robots -> playbook: one action (email to whom, which webhook, a recheck on a fresh connection)."""
 
     def __init__(self, **properties):
         super().__init__(**properties)
         a, n = self.item, self.dom_nodes
         t = a.get("type")
-        label = (a.get("to") or "my alert email") if t == "email" else (a.get("url") or "").replace("https://", "") if t == "webhook" else "second robot"
+        label = (a.get("to") or "my alert email") if t == "email" else (a.get("url") or "").replace("https://", "") if t == "webhook" else "fresh recheck"
         icon, name = ACT.get(t, ("zap", t or ""))
         n["chip"].setAttribute("title", label)
         n["icon"].className = "ic ic-" + icon

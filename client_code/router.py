@@ -21,6 +21,10 @@ PAGES = {
     "bots": ("user", "Robots"),
     "statuspage": ("user", "Status page"),
     "status": (None, "Status"),
+    "checkup": (None, "Free website check-up"),
+    "report": (None, "Client report"),
+    "reports": ("user", "Client reports"),
+    "renewals": ("user", "Renewals"),
     "profile": ("user", "Your profile"),
     "admin": ("admin", "Admin"),
 }
@@ -59,6 +63,18 @@ def _form(name):
     if name == "profile":
         from .Pages.Profile import Profile
         return Profile
+    if name == "checkup":
+        from .Pages.Checkup import Checkup
+        return Checkup
+    if name == "report":
+        from .Pages.Report import Report
+        return Report
+    if name == "reports":
+        from .Pages.Reports import Reports
+        return Reports
+    if name == "renewals":
+        from .Pages.Renewals import Renewals
+        return Renewals
     from .Pages.Admin import Admin
     return Admin
 

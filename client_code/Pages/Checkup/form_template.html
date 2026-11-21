@@ -1,0 +1,51 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap ck-wrap">
+      <div class="ck-head">
+        <anvil-component type="Label" name="title" prop:text="Free website check-up" prop:role='["page-title"]'></anvil-component>
+        <p class="muted ck-lead">The robots visit the site once, like a visitor, and read the status, speed, certificate, domain and security headers. No sign-up, about 15 seconds.</p>
+        <div class="ck-form" role="search">
+          <span class="ck-pre" aria-hidden="true">https://</span>
+          <anvil-component type="TextBox" name="address_box" prop:placeholder="example.com" prop:role='["ck-input"]'></anvil-component>
+          <anvil-component type="Button" name="run_button" prop:text="Run the robots" prop:role='["btn", "btn-primary", "ic-robot"]'></anvil-component>
+        </div>
+        <anvil-component type="Label" name="refusal" prop:role='["msg-error"]' prop:visible="false"></anvil-component>
+      </div>
+
+      <div class="ck-body" anvil:name="body">
+        <aside class="cn-term ck-term" aria-label="Robot log">
+          <header><b><i class="ic ic-terminal"></i> Robot log</b><span anvil:dom-node="term_host"></span></header>
+          <div class="cn-log ck-log" tabindex="0" role="log" aria-label="Robot log entries" aria-live="polite">
+            <anvil-component type="RepeatingPanel" name="log_panel" prop:item_template="VitalRPA.Items.LogLine" prop:role='["ck-lines"]'></anvil-component>
+            <div class="cn-line" anvil:name="busy_line"><time></time><i class="none"></i><span><em anvil:dom-node="busy_text">robots on their way</em> <span class="cn-cursor"></span></span></div>
+          </div>
+        </aside>
+
+        <section class="ck-card" anvil:name="card" aria-labelledby="ck-card-h">
+          <header class="ck-card-head">
+            <div>
+              <h2 id="ck-card-h" class="ck-host" anvil:dom-node="card_host"></h2>
+              <p class="ck-when mono small muted" anvil:dom-node="card_when"></p>
+            </div>
+            <span class="ck-verdict" anvil:dom-node="verdict"></span>
+          </header>
+          <div class="ck-rows">
+            <anvil-component type="RepeatingPanel" name="rows_panel" prop:item_template="VitalRPA.Items.CheckupRow"></anvil-component>
+          </div>
+          <p class="ck-note"><i class="ic ic-lock"></i> Certificates now last 90 days at most and are heading to 45, and Let's Encrypt no longer emails before they run out. A robot that looks every day is the safety net.</p>
+          <div class="ck-actions">
+            <anvil-component type="Button" name="watch_button" prop:text="Watch it around the clock, free" prop:role='["btn", "btn-primary", "ic-robot"]'></anvil-component>
+            <anvil-component type="Button" name="copy_button" prop:text="Copy link" prop:role='["btn", "ic-copy"]'></anvil-component>
+            <anvil-component type="Button" name="again_button" prop:text="Run again" prop:role='["btn", "btn-ghost", "ic-refresh"]'></anvil-component>
+          </div>
+        </section>
+      </div>
+
+      <div class="ui-empty ck-start" anvil:name="start">
+        <i class="ic ic-radar"></i>
+        <h2>Check any website now</h2>
+        <p>Type an address above. You get a report card you can share, for example with a client whose certificate is about to run out.</p>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

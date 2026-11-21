@@ -1,36 +1,5 @@
 allow_embedding: false
 db_schema:
-  error_log:
-    client: none
-    columns:
-    - admin_ui: {order: 0, width: 200}
-      name: when
-      type: datetime
-    - admin_ui: {order: 1, width: 120}
-      name: source
-      type: string
-    - admin_ui: {order: 2, width: 160}
-      name: kind
-      type: string
-    - admin_ui: {order: 3, width: 300}
-      name: message
-      type: string
-    - admin_ui: {order: 4, width: 300}
-      name: traceback
-      type: string
-    - admin_ui: {order: 5, width: 200}
-      name: page
-      type: string
-    - admin_ui: {order: 6, width: 120}
-      name: session
-      type: string
-    - admin_ui: {order: 7, width: 200}
-      name: user
-      target: users
-      type: link_single
-    indexes: []
-    server: full
-    title: Error log
   actions_log:
     client: none
     columns:
@@ -192,6 +161,32 @@ db_schema:
     indexes: []
     server: full
     title: Checks
+  checkups:
+    client: none
+    columns:
+    - admin_ui:
+        order: 0
+        width: 200
+      name: host
+      type: string
+    - admin_ui:
+        order: 1
+        width: 200
+      name: url
+      type: string
+    - admin_ui:
+        order: 2
+        width: 200
+      name: at
+      type: datetime
+    - admin_ui:
+        order: 3
+        width: 300
+      name: result
+      type: simpleObject
+    indexes: []
+    server: full
+    title: Free check-ups
   daily:
     client: none
     columns:
@@ -279,6 +274,53 @@ db_schema:
     indexes: []
     server: full
     title: Daily
+  error_log:
+    client: none
+    columns:
+    - admin_ui:
+        order: 0
+        width: 200
+      name: when
+      type: datetime
+    - admin_ui:
+        order: 1
+        width: 120
+      name: source
+      type: string
+    - admin_ui:
+        order: 2
+        width: 160
+      name: kind
+      type: string
+    - admin_ui:
+        order: 3
+        width: 300
+      name: message
+      type: string
+    - admin_ui:
+        order: 4
+        width: 300
+      name: traceback
+      type: string
+    - admin_ui:
+        order: 5
+        width: 200
+      name: page
+      type: string
+    - admin_ui:
+        order: 6
+        width: 120
+      name: session
+      type: string
+    - admin_ui:
+        order: 7
+        width: 200
+      name: user
+      target: users
+      type: link_single
+    indexes: []
+    server: full
+    title: Error log
   feedback:
     client: none
     columns:
@@ -331,6 +373,33 @@ db_schema:
     indexes: []
     server: full
     title: Feedback
+  feeds:
+    client: none
+    columns:
+    - admin_ui:
+        order: 0
+        width: 200
+      name: owner
+      target: users
+      type: link_single
+    - admin_ui:
+        order: 1
+        width: 200
+      name: kind
+      type: string
+    - admin_ui:
+        order: 2
+        width: 200
+      name: token
+      type: string
+    - admin_ui:
+        order: 3
+        width: 200
+      name: created
+      type: datetime
+    indexes: []
+    server: full
+    title: Calendar feeds
   heartbeats:
     client: none
     columns:
@@ -567,6 +636,58 @@ db_schema:
     indexes: []
     server: full
     title: Playbooks
+  reports:
+    client: none
+    columns:
+    - admin_ui:
+        order: 0
+        width: 200
+      name: owner
+      target: users
+      type: link_single
+    - admin_ui:
+        order: 1
+        width: 200
+      name: token
+      type: string
+    - admin_ui:
+        order: 2
+        width: 200
+      name: title
+      type: string
+    - admin_ui:
+        order: 3
+        width: 200
+      name: tag
+      type: string
+    - admin_ui:
+        order: 4
+        width: 200
+      name: site_ids
+      type: simpleObject
+    - admin_ui:
+        order: 5
+        width: 200
+      name: note
+      type: string
+    - admin_ui:
+        order: 6
+        width: 200
+      name: created
+      type: datetime
+    - admin_ui:
+        order: 7
+        width: 200
+      name: views
+      type: number
+    - admin_ui:
+        order: 8
+        width: 200
+      name: is_demo
+      type: bool
+    indexes: []
+    server: full
+    title: Client reports
   sites:
     client: none
     columns:
@@ -731,6 +852,11 @@ db_schema:
         width: 200
       name: is_demo
       type: bool
+    - admin_ui:
+        order: 32
+        width: 200
+      name: confirm_checks
+      type: number
     indexes: []
     server: full
     title: Sites
@@ -912,13 +1038,14 @@ db_schema:
     server: full
     title: Visits
 metadata:
-  description: "Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks."
-  logo_img: "asset:icon-512.png"
-  title: "VitalRPA: website monitoring robots for busy teams"
+  description: 'Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under
+    1 KB, and playbooks that act when something breaks.'
+  logo_img: asset:icon-512.png
+  title: 'VitalRPA: website monitoring robots for busy teams'
 name: VitalRPA
 native_deps:
   head_html: |
-    <script src="_/theme/legal-kit.js?v=5dc26a3d06"></script>
+    <script src="_/theme/legal-kit.js?v=83bf31d0d9"></script>
     <!-- seo:start (APP_MAKER/seo: edit seo/apps/vitalrpa.json and run seo.py, not here) -->
     <link rel="canonical" href="https://vitalrpa.com/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -943,10 +1070,10 @@ native_deps:
     <h1>VitalRPA: website monitoring robots for busy teams</h1>
     <p>Website robots for busy teams: uptime checks every hour, SSL and domain expiry watch, a visitor beacon under 1 KB, and playbooks that act when something breaks.</p>
     <p>VitalRPA sends robots to check every website around the clock: status code, response time, a keyword that must be on the page, the TLS certificate, the domain&#x27;s expiry and the security headers. None of that needs code on the site.</p>
-    <p>An optional inline beacon (under 1 KB, no cookies, runs after the page loads) adds real visitors, page-load times and JavaScript errors. When something breaks, playbooks act: email, webhooks for Slack, Teams, Discord or Zapier, or a second-robot recheck. Public status pages show it all.</p>
+    <p>An optional inline beacon (under 1 KB, no cookies, runs after the page loads) adds real visitors, page-load times and JavaScript errors. When something breaks, playbooks act: email, webhooks for Slack, Teams, Discord or Zapier, or a recheck on a fresh connection. Public status pages show it all.</p>
     <p>Who it's for: Agencies, freelancers and teams who run many websites</p>
-    <h2>What it does</h2><ul><li>24 check-ins a day by default, every 5 minutes when it matters</li><li>Status, response time, keyword, TLS certificate, domain expiry and security headers</li><li>A visitor beacon under 1 KB with no cookies</li><li>Playbooks: email, webhooks for Slack, Teams, Discord and Zapier, rechecks</li><li>A console with 24-hour strips, 30-day uptime and a robot log</li><li>Public status pages</li></ul>
-    <h2>Questions</h2><h3>Do I need to install anything on my site?</h3><p>No. The checks run from outside. The visitor beacon is optional.</p><h3>How often are sites checked?</h3><p>Every hour by default (24 check-ins a day), or every 5 minutes for sites that matter.</p><h3>What happens when a site goes down?</h3><p>A playbook runs: it can email you, call a webhook for Slack, Teams, Discord or Zapier, or ask a second robot to recheck first.</p>
+    <h2>What it does</h2><ul><li>24 check-ins a day by default, every 5 minutes when it matters</li><li>Status, response time, keyword, TLS certificate, domain expiry and security headers</li><li>A visitor beacon under 1 KB with no cookies</li><li>Playbooks: email, webhooks for Slack, Teams, Discord and Zapier, rechecks</li><li>A console with 24-hour strips, 30-day uptime and a robot log</li><li>Public status pages</li><li>A free website check-up anyone can run, no sign-up</li><li>Client reports and a renewals calendar feed</li></ul>
+    <h2>Questions</h2><h3>Do I need to install anything on my site?</h3><p>No. The checks run from outside. The visitor beacon is optional.</p><h3>How often are sites checked?</h3><p>Every hour by default (24 check-ins a day), or every 5 minutes for sites that matter.</p><h3>What happens when a site goes down?</h3><p>A playbook runs: it can email you, call a webhook for Slack, Teams, Discord or Zapier, or recheck the site on a fresh connection first.</p>
     <p><a href="https://vitalrpa.com/about">About VitalRPA</a> &middot; <a href="https://vitalrpa.com/llms.txt">VitalRPA for AI assistants</a> &middot; Made by <a href="https://arkvital.com">Arkvital</a>, Montreal, Canada. VitalRPA needs JavaScript in your browser.</p>
     </div></noscript>
     <!-- seo:end -->
@@ -975,7 +1102,7 @@ native_deps:
     <!-- Prepsto feedback panel: every "Submit feedback" link and button opens it (it is the only feedback channel). No floating button, no cookies, nothing loads until it is opened. Codes: APP_MAKER/prepsto-links.json -->
     <script src="https://prepsto.com/_/theme/widget.js" data-prepsto="ny2cnbz" data-button="false" data-label="Submit feedback" async></script>
     <link rel="stylesheet" href="_/theme/icons.css?v=b0c52d6e9f">
-    <link rel="stylesheet" href="_/theme/app.css?v=42b19d7ca7">
+    <link rel="stylesheet" href="_/theme/app.css?v=78f053be38">
     <script src="_/theme/app-kit.js?v=3901ead852"></script>
     <script src="_/theme/vr-charts.js?v=69f4053495"></script>
 package_name: VitalRPA

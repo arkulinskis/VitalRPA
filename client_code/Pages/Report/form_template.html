@@ -1,0 +1,48 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap rp-wrap">
+      <div class="ui-empty" anvil:name="missing">
+        <i class="ic ic-lock"></i>
+        <h2>This report link was turned off</h2>
+        <anvil-component type="Label" name="missing_text"></anvil-component>
+        <a class="ui-btn" href="#report/sample">See a sample report</a>
+      </div>
+      <article class="rp" anvil:name="main">
+        <header class="rp-top">
+          <div class="rp-brand"><img src="_/theme/icon.svg" alt="" width="26" height="26"><span>Website care report</span></div>
+          <div class="rp-tools rp-noprint">
+            <anvil-component type="DropDown" name="month_box" prop:role='["rp-month"]'></anvil-component>
+            <anvil-component type="Button" name="print_button" prop:text="Print / PDF" prop:role='["btn", "ic-print"]'></anvil-component>
+          </div>
+        </header>
+        <anvil-component type="Label" name="title" prop:role='["page-title"]'></anvil-component>
+        <p class="rp-month-line mono" anvil:dom-node="month_line"></p>
+
+        <div class="rp-head" role="group" aria-label="This month in numbers">
+          <div><small>Uptime</small><b anvil:dom-node="h_up"></b></div>
+          <div><small>Incidents</small><b anvil:dom-node="h_inc"></b></div>
+          <div><small>Downtime</small><b anvil:dom-node="h_down"></b></div>
+          <div><small>Robot checks</small><b anvil:dom-node="h_checks"></b></div>
+          <div><small>Avg response</small><b anvil:dom-node="h_ms"></b></div>
+          <div anvil:dom-node="h_vis_box"><small>Visitors</small><b anvil:dom-node="h_vis"></b></div>
+        </div>
+        <p class="rp-summary" anvil:dom-node="summary"></p>
+
+        <section class="rp-sec">
+          <h2>Sites</h2>
+          <anvil-component type="RepeatingPanel" name="sites_panel" prop:item_template="VitalRPA.Items.ReportSite" prop:role='["rp-sites"]'></anvil-component>
+          <p class="muted" anvil:name="no_sites">No sites in this report yet.</p>
+        </section>
+
+        <section class="rp-sec">
+          <h2>What the robots handled</h2>
+          <anvil-component type="RepeatingPanel" name="inc_panel" prop:item_template="VitalRPA.Items.ReportIncident" prop:role='["rp-incs"]'></anvil-component>
+          <p class="muted" anvil:name="no_inc">Nothing needed handling this month: every check passed.</p>
+        </section>
+
+        <p class="rp-note" anvil:dom-node="note"></p>
+        <footer class="rp-foot"><span>Watched around the clock by <a href="#landing">VitalRPA</a> robots</span><span class="mono" anvil:dom-node="generated"></span></footer>
+      </article>
+    </div>
+  </anvil-block>
+</anvil-form>

@@ -25,7 +25,7 @@
         <div class="cn-kpi"><small><i class="ic ic-bell"></i>Open incidents</small><b anvil:dom-node="k_inc"></b><em anvil:dom-node="k_inc_sub"></em></div>
         <div class="cn-kpi"><small><i class="ic ic-eye"></i>Visitors today</small><b anvil:dom-node="k_vis"></b><em anvil:dom-node="k_vis_sub"></em></div>
         <div class="cn-kpi"><small><i class="ic ic-gauge"></i>Avg response</small><b anvil:dom-node="k_avg"></b><em anvil:dom-node="k_avg_sub"></em></div>
-        <div class="cn-kpi"><small><i class="ic ic-lock"></i>Certificates</small><b anvil:dom-node="k_ssl"></b><em anvil:dom-node="k_ssl_sub"></em></div>
+        <a class="cn-kpi cn-kpi-link" href="#renewals" anvil:dom-node="k_ssl_link"><small><i class="ic ic-lock"></i>Certificates</small><b anvil:dom-node="k_ssl"></b><em anvil:dom-node="k_ssl_sub"></em></a>
       </div>
 
       <div class="cn-main">
@@ -33,6 +33,10 @@
           <div class="cn-tools" anvil:name="tools">
             <anvil-component type="TextBox" name="filter_box" prop:type="search" prop:placeholder="Filter sites" prop:role='["cn-filter"]'></anvil-component>
             <anvil-component type="RepeatingPanel" name="tags_panel" prop:item_template="VitalRPA.Items.TagChip" prop:role='["contents"]'></anvil-component>
+          </div>
+          <div class="cn-report" anvil:name="report_bar">
+            <i class="ic ic-book"></i><span anvil:dom-node="report_text"></span>
+            <anvil-component type="Button" name="report_button" prop:text="Client report" prop:role='["btn", "btn-sm", "btn-primary", "ic-link"]'></anvil-component>
           </div>
           <div class="cn-table" anvil:name="table">
             <div class="cn-row head" aria-hidden="true"><span>Site</span><span>Last 24 h (hourly)</span><span>30 d up</span><span>Response</span><span>Visitors</span><span>SSL</span><span>Beacon</span></div>

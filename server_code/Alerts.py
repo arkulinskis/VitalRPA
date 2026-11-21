@@ -3,7 +3,7 @@
 A playbook = a trigger (an incident kind, "recovered" or "any") + optionally one site + actions:
   email   {type, to}    to = "" means the owner's alert address
   webhook {type, url}   POSTs JSON with "text" (Slack, Teams, Google Chat) and "content" (Discord)
-  recheck {type}        a second robot loads the site again right away and writes the result as a note
+  recheck {type}        the robot loads the site again right away on a fresh connection and writes the result as a note
 Every action is written to actions_log. Sample-fleet playbooks only pretend (nothing is sent).
 """
 import datetime as dt
@@ -126,8 +126,11 @@ def _do(a, pb, incident, head, text, test):
             return True, "", "Nothing to recheck" if site is None else "Recheck skipped (test run)"
         from . import Monitor
         res = Monitor.run_check(site, source="playbook")
-        note = "Second robot recheck: %s" % ("still failing (%s)" % res["problem"] if res["state"] == "fail" else
-                                              "loads fine now (HTTP %s, %s ms)" % (res["code"], res["ms"]))
+        if res["state"] == "skipped":
+            note = "Recheck on a fresh connection: not counted (the robot's own connection failed)"
+        else:
+            note = "Recheck on a fresh connection: %s" % ("still failing (%s)" % res["problem"] if res["state"] == "fail" else
+                                                          "loads fine now (HTTP %s, %s ms)" % (res["code"], res["ms"]))
         incident["notes"] = list(incident["notes"] or []) + [{"at": C.iso(C.now()), "by": "Robot", "text": note}]
         return True, site["name"], note
     return False, "", "Unknown action"

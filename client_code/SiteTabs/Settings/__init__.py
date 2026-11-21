@@ -2,6 +2,7 @@ from anvil import *
 
 from ._anvil_designer import SettingsTemplate
 from ... import router, state, vr
+from ...Dialogs.AddSite import CONFIRM
 
 
 class Settings(SettingsTemplate):
@@ -20,13 +21,17 @@ class Settings(SettingsTemplate):
         self.status_box.text = str(st["expect_status"]) if st.get("expect_status") else ""
         self.quiet_box.text = str(st.get("quiet_hours") or 0)
         self.tags_box.text = ", ".join(st["tags"])
+        self.confirm_box.items = CONFIRM
+        self.confirm_box.selected_value = st.get("confirm_checks") or 2
         state.set_control_attr(self.interval_box, "aria-label", "Check every")
+        state.set_control_attr(self.confirm_box, "aria-label", "Alert after")
 
     @handle("save_button", "click")
     def save_button_click(self, **event_args):
         data = {"name": self.name_box.text or "", "url": self.url_box.text or "", "interval_min": self.interval_box.selected_value,
                 "slow_ms": self.slow_box.text or 3000, "keyword": self.keyword_box.text or "", "expect_status": self.status_box.text or "",
-                "quiet_hours": self.quiet_box.text or 0, "tags": self.tags_box.text or ""}
+                "quiet_hours": self.quiet_box.text or 0, "tags": self.tags_box.text or "",
+                "confirm_checks": self.confirm_box.selected_value or 2}
         r = state.call("update_site", self.s["id"], data)
         if r:
             state.toast("Saved", "ok")

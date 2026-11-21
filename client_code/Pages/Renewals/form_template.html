@@ -1,0 +1,58 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap rn-wrap">
+      <div class="ui-page-head">
+        <div>
+          <anvil-component type="Label" name="title" prop:text="Renewals" prop:role='["page-title"]'></anvil-component>
+          <anvil-component type="Label" name="sub" prop:role='["cn-sub"]'></anvil-component>
+        </div>
+        <anvil-component type="Button" name="calendar_button" prop:text="Add to my calendar" prop:role='["btn", "btn-primary", "ic-calendar"]'></anvil-component>
+      </div>
+
+      <div class="vr-sample" anvil:name="sample_banner">
+        <div class="ui-row vr-sample-text"><i class="ic ic-eye"></i><span><b>Sample fleet.</b> These are the demo agency's certificates and domains. Add your own site and this page (and your calendar feed) shows yours.</span></div>
+        <a class="ui-btn sm" href="#renewals" anvil:name="back_link">Back to my fleet</a>
+      </div>
+
+      <div class="st-card rn-cal" anvil:name="cal_box">
+        <h2 class="st-h"><i class="ic ic-calendar"></i> Your private calendar feed</h2>
+        <p class="small muted st-p">Every expiry as an all-day event, with reminders 14 and 3 days before. Your calendar reads it again by itself, so new dates appear as the robots read them. Anyone with the link can see the dates, so keep it to your team.</p>
+        <div class="vr-copybox"><pre anvil:dom-node="cal_url"></pre><anvil-component type="Button" name="copy_button" prop:text="Copy" prop:role='["btn", "btn-sm", "ic-copy"]'></anvil-component></div>
+        <div class="ui-row rn-cal-links">
+          <a class="ui-btn sm" anvil:name="google_link" target="_blank" rel="noopener"><i class="ic ic-external"></i>Google Calendar</a>
+          <a class="ui-btn sm" anvil:name="webcal_link"><i class="ic ic-calendar"></i>Apple / Outlook</a>
+          <anvil-component type="Button" name="rotate_button" prop:text="New link" prop:role='["btn", "btn-ghost", "btn-sm", "ic-refresh"]'></anvil-component>
+        </div>
+      </div>
+
+      <div class="rn-groups">
+        <section class="rn-group" anvil:name="g_week">
+          <h2 class="rn-h">This week <span class="rn-count" anvil:dom-node="c_week"></span></h2>
+          <anvil-component type="RepeatingPanel" name="p_week" prop:item_template="VitalRPA.Items.RenewalRow" prop:role='["rn-list"]'></anvil-component>
+        </section>
+        <section class="rn-group" anvil:name="g_month">
+          <h2 class="rn-h">Within 30 days <span class="rn-count" anvil:dom-node="c_month"></span></h2>
+          <anvil-component type="RepeatingPanel" name="p_month" prop:item_template="VitalRPA.Items.RenewalRow" prop:role='["rn-list"]'></anvil-component>
+        </section>
+        <section class="rn-group" anvil:name="g_quarter">
+          <h2 class="rn-h">Within 90 days <span class="rn-count" anvil:dom-node="c_quarter"></span></h2>
+          <anvil-component type="RepeatingPanel" name="p_quarter" prop:item_template="VitalRPA.Items.RenewalRow" prop:role='["rn-list"]'></anvil-component>
+        </section>
+        <section class="rn-group" anvil:name="g_later">
+          <h2 class="rn-h">Later <span class="rn-count" anvil:dom-node="c_later"></span></h2>
+          <anvil-component type="RepeatingPanel" name="p_later" prop:item_template="VitalRPA.Items.RenewalRow" prop:role='["rn-list"]'></anvil-component>
+        </section>
+        <section class="rn-group" anvil:name="g_none">
+          <h2 class="rn-h">No data yet <span class="rn-count" anvil:dom-node="c_none"></span></h2>
+          <anvil-component type="RepeatingPanel" name="p_none" prop:item_template="VitalRPA.Items.RenewalRow" prop:role='["rn-list"]'></anvil-component>
+        </section>
+      </div>
+      <div class="ui-empty" anvil:name="empty">
+        <i class="ic ic-lock"></i>
+        <h2>Nothing to renew yet</h2>
+        <p>Add a site and the robots read its certificate and domain within a day (or press Inspect on the site page).</p>
+      </div>
+      <p class="small muted rn-foot">Certificates: warned 14 days ahead. Domains: 30 days ahead. Let's Encrypt stopped sending expiry emails in 2025, and certificates are getting shorter, so a robot that looks every day is the safety net.</p>
+    </div>
+  </anvil-block>
+</anvil-form>

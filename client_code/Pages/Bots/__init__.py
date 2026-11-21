@@ -9,7 +9,7 @@ from ...Dialogs.HeartbeatForm import HeartbeatForm
 
 class Bots(BotsTemplate):
     """#bots: the RPA side. The built-in robots (schedule, last run), playbooks ("if this happens, the robot does
-    that": email, webhook, a second-robot recheck), cron heartbeats (a URL your backups call; silence = an incident)
+    that": email, webhook, a recheck on a fresh connection), cron heartbeats (a URL your backups call; silence = an incident)
     and the log of everything the robots did."""
 
     def __init__(self, args=(), **properties):

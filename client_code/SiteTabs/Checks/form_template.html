@@ -4,5 +4,5 @@
     <anvil-component type="RepeatingPanel" name="checks_panel" prop:item_template="VitalRPA.Items.CheckRow"></anvil-component>
     <p class="muted st-none" anvil:name="no_checks">No checks yet.</p>
   </div>
-  <p class="small muted">The last 80 robot visits. A failed check is retried after 2 minutes before an incident opens; raw checks are kept for 30 days, daily totals for good.</p>
+  <p class="small muted">The last 80 robot visits. A failed check is retried after 2 minutes before an incident opens (Settings → Alert after). When the robot's own connection fails, the check says "Not counted" and doesn't touch uptime. Raw checks are kept for 30 days, daily totals for good.</p>
 </div>

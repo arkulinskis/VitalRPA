@@ -31,7 +31,7 @@
     await until(() => location.hash === '#landing' && window.UI_READY, 'signed out');
   }
   try {
-    for (const h of ['#landing', '#auth', '#auth/signup', '#status/northwind', '#status/nobody-here']) await visit(h);
+    for (const h of ['#landing', '#auth', '#auth/signup', '#status/northwind', '#status/nobody-here', '#checkup', '#checkup/example.com', '#report/sample', '#report/no-such-link']) await visit(h);
     // a new member (sees the sample fleet)
     await visit('#auth/signup');
     let i = inputs();
@@ -39,7 +39,7 @@
     const tick = $('.au-card input[type=checkbox]'); if (tick && !tick.checked) tick.click();
     $$('.anvil-role-btn-block button').find((b) => /Create account/.test(b.textContent)).click();
     await until(() => location.hash === '#home' && window.UI_READY, 'signed up', 60000);
-    for (const h of ['#home', '#home/sample', '#incidents', '#incidents/resolved', '#incidents/all', '#bots', '#statuspage', '#profile']) await visit(h);
+    for (const h of ['#home', '#home/sample', '#incidents', '#incidents/resolved', '#incidents/all', '#bots', '#statuspage', '#profile', '#reports', '#renewals', '#renewals/sample', '#checkup/example.com']) await visit(h);
     await visit('#home');
     const site = $('a.cn-row[href^="#site/"]').getAttribute('href');
     for (const t of ['', '/traffic', '/checks', '/errors', '/install']) await visit(site + t);

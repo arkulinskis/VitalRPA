@@ -10,6 +10,7 @@
       <label class="ui-field"><span>Expected HTTP status <em>(blank = any 2xx/3xx)</em></span><anvil-component type="TextBox" name="status_box" prop:type="number"></anvil-component></label>
       <label class="ui-field"><span>Silence alarm <em>(hours without visitors, 0 = off)</em></span><anvil-component type="TextBox" name="quiet_box" prop:type="number"></anvil-component></label>
       <label class="ui-field"><span>Tags <em>(comma separated)</em></span><anvil-component type="TextBox" name="tags_box"></anvil-component></label>
+      <div class="ui-field"><span>Alert after <em>(failed checks in a row, 2 min apart)</em></span><anvil-component type="DropDown" name="confirm_box"></anvil-component></div>
     </div>
     <div class="ui-row end st-save"><anvil-component type="Button" name="save_button" prop:text="Save" prop:role='["btn", "btn-primary", "ic-check"]'></anvil-component></div>
   </div>

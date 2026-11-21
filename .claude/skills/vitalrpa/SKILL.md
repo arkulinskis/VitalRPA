@@ -130,6 +130,22 @@ tools/                     check.py, assets.py, build_icons.py, make_icons.py, u
   (`python -I APP_MAKER/tools/loaders.py apply vitalrpa <preset>`), `LEGAL_THEME` in startup.py.
 - **Icon:** edit theme/assets/icon.svg, `python -I tools/make_icons.py`, then `python tools/assets.py`.
 
+## Features added 2026-11-20 (improvement round)
+
+- **Free check-up** `#checkup/<host>`: public callables `checkup_http(address, fresh)` then `checkup_tls(run_id)` (two
+  calls so each stays under a call timeout). Never weaken `Checkup.clean_host` (http/https only, ports 80/443, public
+  hostnames) or Probe's resolve-time private-network checks: they are the SSRF guard. Limits: 30-min cache per host,
+  8 fresh runs per session per hour, 200 per hour globally (rows in `checkups`), janitor deletes rows after 2 days.
+- **Client reports** `#reports` / `#report/<token>`: a client = a tag (`""` = all sites). `get_report` is public and must
+  only read the report owner's sites; downtime = `down` incidents clipped to the month. Print styles: `@media print` at
+  the end of app.css. The Console's tag chip shows "Client report for #tag" (`report_for_tag`).
+- **Renewals** `#renewals`: `get_renewals` uses `C.scope` (sample fleet for people without sites); calendar feed
+  `/_/api/renewals.ics?t=<token>` (CRLF, folded at 75 octets, 2 VALARMs); unknown/rotated token = 404.
+- **Calm robots:** `sites.confirm_checks` (1/2/3/5) is read with `Monitor.confirm_checks` and written with
+  `Monitor.set_confirm_checks` in its own guarded statement, so nothing breaks before the Schema Mismatch is accepted.
+  The landing must never claim a second location or screenshots again (neither exists; the recheck runs on the same
+  Anvil server, "on a fresh connection").
+
 ## Gotchas
 
 - The local App Server (1.18) lags hosted Anvil: no `HtmlComponent.attrs` (use state.set_attr), `Notification(role=)`

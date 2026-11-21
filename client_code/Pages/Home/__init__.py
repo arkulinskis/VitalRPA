@@ -17,6 +17,7 @@ class Home(HomeTemplate):
         state.heading(self.title, 1)
         state.set_control_attr(self.filter_box, "aria-label", "Filter sites")
         self.sample = True if args and args[0] == "sample" else None
+        self.watch = args[1] if len(args) > 1 and args[0] == "watch" else ""  # back from the check-up's sign-up
         self.tag, self.query = "all", ""
         self.data: dict = {}
         self._timer = None
@@ -43,7 +44,8 @@ class Home(HomeTemplate):
         self._kpi("vis", vr.num(t["visitors"]), "", vr.num(t["views"]) + " page views")
         self._kpi("avg", vr.ms(t["avg_ms"]), "", "last 24 h")
         self._kpi("ssl", str(t["certs_soon"]) if t["certs_soon"] else "OK", "warn" if t["certs_soon"] else "good",
-                  "expiring \u2264 14 days" if t["certs_soon"] else "none expiring soon")
+                  ("expiring \u2264 14 days" if t["certs_soon"] else "none expiring soon") + " \u00b7 renewals \u2192")
+        self.dom_nodes["k_ssl_link"].setAttribute("href", "#renewals" if mine else "#renewals/sample")
         self.tools.visible = self.table.visible = bool(d["sites"])
         self.empty.visible = not d["sites"]
         self.log_panel.items = d["feed"]
@@ -70,6 +72,14 @@ class Home(HomeTemplate):
                 and (not q or q in (s["name"] + " " + s["host"]).lower())]
         self.sites_panel.items = rows
         self.no_match.visible = bool(d["sites"]) and not rows
+        mine = d.get("mode") == "mine"
+        self.report_bar.visible = self.tag != "all" or not mine
+        if mine:
+            self.dom_nodes["report_text"].textContent = "Client report for #%s: a private monthly link to send them" % self.tag
+            self.report_button.text = "Client report for #%s" % self.tag
+        else:
+            self.dom_nodes["report_text"].textContent = "Agencies send each client a monthly report link"
+            self.report_button.text = "See the sample client report"
 
     # ---- filters
     @handle("filter_box", "change")
@@ -84,6 +94,15 @@ class Home(HomeTemplate):
         state.refocus(self.tags_panel, key)
 
     # ---- buttons
+    @handle("report_button", "click")
+    def report_button_click(self, **event_args):
+        if self.data.get("mode") != "mine":
+            router.go("report", "sample")
+            return
+        r = state.call("report_for_tag", self.tag)
+        if r:
+            router.go("reports", r["report"]["id"])
+
     @handle("refresh_button", "click")
     def refresh_button_click(self, **event_args):
         self._load(state.call("get_console", self.sample))
@@ -110,6 +129,10 @@ class Home(HomeTemplate):
 
     @handle("", "show")
     def form_show(self, **event_args):
+        if self.watch:
+            host, self.watch = self.watch, ""
+            router.replace("home")
+            add_site("https://%s/" % host)
         if self._timer is None:
             self._timer = window.setInterval(self._tick, 60000)
 

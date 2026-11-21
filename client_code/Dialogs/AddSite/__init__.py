@@ -5,12 +5,13 @@ from ._anvil_designer import AddSiteTemplate
 from ... import router, state, vr
 
 INTERVALS = [5, 15, 30, 60, 180, 360, 720, 1440]
+CONFIRM = [("1 failed check", 1), ("2 in a row (recommended)", 2), ("3 in a row", 3), ("5 in a row", 5)]
 
 
-def add_site():
-    """The "Add a site" dialog (console, empty states, robots, incidents). On success: the first check's result as a
-    toast, then the new site's Install tab."""
-    r = alert(AddSite(), buttons=[], role="app-dialog", dismissible=True)
+def add_site(url=""):
+    """The "Add a site" dialog (console, empty states, robots, incidents, the free check-up with `url` filled in). On
+    success: the first check's result as a toast, then the new site's Install tab."""
+    r = alert(AddSite(url=url), buttons=[], role="app-dialog", dismissible=True)
     if not r:
         return
     res = r.get("result")
@@ -26,8 +27,12 @@ class AddSite(AddSiteTemplate):
     """Watch a new site: address, name, how often; more checks (keyword, expected status, slow limit, tags) under a
     disclosure. Closes with {site_id, result} or None."""
 
-    def __init__(self, **properties):
+    def __init__(self, url="", **properties):
         super().__init__(**properties)
+        self.url_box.text = url or ""
+        self.confirm_box.items = CONFIRM
+        self.confirm_box.selected_value = 2
+        state.set_control_attr(self.confirm_box, "aria-label", "Alert after")
         self.interval_box.items = [(vr.every(m), m) for m in INTERVALS]
         self.interval_box.selected_value = 60
         state.set_control_attr(self.interval_box, "aria-label", "Check every")
@@ -66,7 +71,8 @@ class AddSite(AddSiteTemplate):
             return
         data = {"url": url, "name": self.name_box.text or "", "interval_min": self.interval_box.selected_value or 60,
                 "keyword": self.keyword_box.text or "", "expect_status": self.status_box.text or "",
-                "slow_ms": self.slow_box.text or 3000, "tags": self.tags_box.text or ""}
+                "slow_ms": self.slow_box.text or 3000, "tags": self.tags_box.text or "",
+                "confirm_checks": self.confirm_box.selected_value or 2}
         self.save_button.enabled = False
         try:
             r = anvil.server.call("add_site", data)

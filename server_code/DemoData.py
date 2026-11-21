@@ -35,7 +35,7 @@ SITES: list = [
          base=92, jitter=18, headers=6, bytes=180, server="envoy", issuer="Amazon", ssl_days=255, domain_days=600,
          keyword='"status":"ok"', views=0),
     dict(key="bakery", name="Little Fern Bakery", url="https://littlefern.example/", tags=["clients"], interval=60, base=310,
-         jitter=70, views=95, load=1700, headers=1, bytes=83000, server="LiteSpeed", issuer="Let's Encrypt", ssl_days=9,
+         jitter=70, views=95, load=1700, headers=1, bytes=83000, server="LiteSpeed", issuer="Let's Encrypt", ssl_days=6,
          domain_days=95, quiet=48),
     dict(key="law", name="Maple & Co. Law", url="https://maplelaw.example/", tags=["clients"], interval=60, base=360, jitter=60,
          views=70, load=1500, headers=3, bytes=71000, server="nginx", issuer="DigiCert", ssl_days=190, domain_days=21, quiet=24,
@@ -73,7 +73,7 @@ JS_ERRORS = [
 INCIDENTS = [
     ("down", "dental", 3, None, "critical", "Harbor Dental Clinic is down", "HTTP 502 Bad Gateway", None),
     ("slow", "realty", 5, None, "warning", "Pinecrest Realty is slow", "5 slow checks in a row (latest 2,870 ms)", None),
-    ("ssl", "bakery", 26, None, "warning", "Little Fern Bakery: certificate expires in 9 days",
+    ("ssl", "bakery", 26, None, "warning", "Little Fern Bakery: certificate expires in 6 days",
      "Issued by Let's Encrypt. Renew it, or check that auto-renewal still works.", None),
     ("silence", "law", 6, None, "warning", "Maple & Co. Law: no visitors for 24 hours",
      "The beacon last heard from a visitor 30 hours ago. Was the snippet removed, or is the site broken for real visitors?", None),
@@ -86,7 +86,17 @@ INCIDENTS = [
     ("down", "api", 482, 9, "critical", "Atlas Freight API is down", "Connection refused", "Back up: HTTP 200 in 88 ms"),
     ("ssl", "www", 700, 2900, "warning", "Northwind Coffee website: certificate expires in 12 days",
      "Issued by Google Trust Services.", "Certificate valid for 89 days"),
+    # older history, so every month of the sample client report has something the robots handled
+    ("down", "shop", 24 * 24 + 5, 11, "critical", "Northwind Coffee shop is down", "HTTP 503 Service Unavailable", "Back up: HTTP 200 in 201 ms"),
+    ("down", "www", 24 * 38 + 9, 4, "critical", "Northwind Coffee website is down", "Timed out after 12 s", "Back up: HTTP 200 in 248 ms"),
+    ("slow", "shop", 24 * 52 + 2, 25, "warning", "Northwind Coffee shop is slow", "3 slow checks in a row (latest 3,940 ms)", "Fast again: 205 ms"),
+    ("down", "shop", 24 * 66 + 14, 7, "critical", "Northwind Coffee shop is down", "HTTP 502 Bad Gateway", "Back up: HTTP 200 in 190 ms"),
+    ("down", "dental", 24 * 45 + 3, 38, "critical", "Harbor Dental Clinic is down", "HTTP 500 Internal Server Error", "Back up: HTTP 200 in 470 ms"),
+    ("down", "api", 24 * 74 + 20, 3, "critical", "Atlas Freight API is down", "Connection refused", "Back up: HTTP 200 in 90 ms"),
 ]
+
+SAMPLE_REPORT = dict(token="sample", tag="northwind", title="Northwind Coffee: website care",
+                     note="Questions about this report? Write to Mara at ops@northwind-coffee.example.")
 
 # name, trigger, site key or None, actions, enabled, fired
 PLAYBOOKS = [
@@ -110,7 +120,8 @@ HEARTBEATS = [
 ]
 
 # Tables that hold demo rows (each has an is_demo column). Children before parents.
-DEMO_TABLES = ["actions_log", "bot_runs", "jserrors", "checks", "daily", "incidents", "playbooks", "status_pages", "heartbeats", "sites"]
+DEMO_TABLES = ["reports", "actions_log", "bot_runs", "jserrors", "checks", "daily", "incidents", "playbooks", "status_pages", "heartbeats",
+               "sites"]
 
 
 def profile(site):
@@ -125,6 +136,19 @@ def ensure_loaded():
     """Call from the app's main data callables: loads the demo once, unless an admin removed it."""
     if state() == "never":
         load()
+
+
+def ensure_extras():
+    """Demo rows added after the sample was first loaded (the client report, 2026-11-20): add them to a loaded sample."""
+    if state() != "loaded":
+        return
+    owner = app_tables.users.get(email=C.DEMO_OWNER_EMAIL)
+    if owner is not None and app_tables.reports.get(token=SAMPLE_REPORT["token"]) is None:
+        _add_report(owner, C.now())
+
+
+def _add_report(owner, now):
+    app_tables.reports.add_row(owner=owner, site_ids=[], created=now - dt.timedelta(days=60), views=37, is_demo=True, **SAMPLE_REPORT)
 
 
 # ----------------------------------------------------------------------------------------------- traffic
@@ -306,7 +330,7 @@ def load():
                                                   last_ping=last_ping, status=status, pings=pings, created=now - dt.timedelta(days=100), is_demo=True)
 
     notes_dental = [
-        {"at": C.iso(now - dt.timedelta(hours=2, minutes=57)), "by": "Robot", "text": "Second robot recheck: still failing (HTTP 502 Bad Gateway)"},
+        {"at": C.iso(now - dt.timedelta(hours=2, minutes=57)), "by": "Robot", "text": "Recheck on a fresh connection: still failing (HTTP 502 Bad Gateway)"},
         {"at": C.iso(now - dt.timedelta(hours=2, minutes=40)), "by": "Mara Lindqvist", "text": "Acknowledged: someone is on it."},
         {"at": C.iso(now - dt.timedelta(hours=2, minutes=31)), "by": "Mara Lindqvist",
          "text": "Host support says the PHP-FPM pool crashed after a plugin update. They're rolling it back."},
@@ -333,11 +357,11 @@ def load():
     oncall = "Page the on-call when a site goes down"
     slack = "https://hooks.slack.example/services/T0NW/B0OPS/demo"
     log = [
-        (3, oncall, "Harbor Dental Clinic", "recheck", "Harbor Dental Clinic", "Second robot recheck: still failing (HTTP 502 Bad Gateway)", True),
+        (3, oncall, "Harbor Dental Clinic", "recheck", "Harbor Dental Clinic", "Recheck on a fresh connection: still failing (HTTP 502 Bad Gateway)", True),
         (3, oncall, "Harbor Dental Clinic", "email", "oncall@northwind-coffee.example", "Email sent", True),
         (3, oncall, "Harbor Dental Clinic", "webhook", slack, "Webhook delivered", True),
         (2, oncall, "Inventory sync (cron)", "email", "oncall@northwind-coffee.example", "Email sent", True),
-        (5, "Second opinion on slow pages", "Pinecrest Realty", "recheck", "Pinecrest Realty", "Second robot recheck: loads fine now (HTTP 200, 2690 ms)", True),
+        (5, "Second opinion on slow pages", "Pinecrest Realty", "recheck", "Pinecrest Realty", "Recheck on a fresh connection: loads fine now (HTTP 200, 2690 ms)", True),
         (6, "Tell #web when visitors vanish", "Maple & Co. Law", "webhook", "https://hooks.slack.example/services/T0NW/B0WEB/demo", "Webhook delivered", True),
         (26, "Certificate reminders", "Little Fern Bakery", "email", "webmaster@northwind-coffee.example", "Email sent", True),
         (50, "Domain renewals to billing", "Maple & Co. Law", "email", "billing@northwind-coffee.example", "Email sent", True),
@@ -360,6 +384,7 @@ def load():
                                     intro="Live status of our online shop and website, checked around the clock by robots.",
                                     site_ids=[sites["shop"].get_id(), sites["www"].get_id(), sites["api"].get_id()], public=True,
                                     created=now - dt.timedelta(days=80), is_demo=True)
+    _add_report(owner, now)
     C.set_setting("demo", "loaded")
     C.set_setting("demo_alive", C.iso(now))
     return counts()

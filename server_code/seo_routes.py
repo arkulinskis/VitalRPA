@@ -34,7 +34,7 @@ SEO = {
  "audience": "Agencies, freelancers and teams who run many websites",
  "about": [
   "VitalRPA sends robots to check every website around the clock: status code, response time, a keyword that must be on the page, the TLS certificate, the domain's expiry and the security headers. None of that needs code on the site.",
-  "An optional inline beacon (under 1 KB, no cookies, runs after the page loads) adds real visitors, page-load times and JavaScript errors. When something breaks, playbooks act: email, webhooks for Slack, Teams, Discord or Zapier, or a second-robot recheck. Public status pages show it all."
+  "An optional inline beacon (under 1 KB, no cookies, runs after the page loads) adds real visitors, page-load times and JavaScript errors. When something breaks, playbooks act: email, webhooks for Slack, Teams, Discord or Zapier, or a recheck on a fresh connection. Public status pages show it all."
  ],
  "features": [
   "24 check-ins a day by default, every 5 minutes when it matters",
@@ -42,7 +42,11 @@ SEO = {
   "A visitor beacon under 1 KB with no cookies",
   "Playbooks: email, webhooks for Slack, Teams, Discord and Zapier, rechecks",
   "A console with 24-hour strips, 30-day uptime and a robot log",
-  "Public status pages"
+  "Public status pages",
+  "Free website check-up: any visitor checks an address in about 15 seconds, no sign-up, with a shareable report card",
+  "Client reports: a private monthly link per client with uptime, downtime, renewals and what the robots handled, printable to PDF",
+  "Renewals board and calendar feed for every certificate and domain, with reminders 14 and 3 days before",
+  "Calm robots: the robot checks its own connection before counting a failure, and you choose after how many failures you hear about it"
  ],
  "faq": [
   [
@@ -55,7 +59,7 @@ SEO = {
   ],
   [
    "What happens when a site goes down?",
-   "A playbook runs: it can email you, call a webhook for Slack, Teams, Discord or Zapier, or ask a second robot to recheck first."
+   "A playbook runs: it can email you, call a webhook for Slack, Teams, Discord or Zapier, or recheck the site on a fresh connection first."
   ]
  ],
  "site": "https://vitalrpa.com",

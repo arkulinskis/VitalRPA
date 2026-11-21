@@ -1,0 +1,37 @@
+<anvil-form layout="VitalRPA.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap rl-wrap">
+      <div class="ui-page-head">
+        <div>
+          <anvil-component type="Label" name="title" prop:text="Client reports" prop:role='["page-title"]'></anvil-component>
+          <p class="muted">One private link per client: a month of uptime, downtime, certificates, domains and everything the robots handled. Your client opens it without an account and can print it as a PDF.</p>
+        </div>
+        <a class="ui-btn" href="#report/sample" anvil:name="sample_link"><i class="ic ic-eye"></i>See a sample report</a>
+      </div>
+
+      <div class="st-card rl-new" anvil:name="new_box">
+        <h2 class="st-h"><i class="ic ic-plus"></i> New report</h2>
+        <div class="rl-new-grid">
+          <label class="ui-field"><span>Report name</span><anvil-component type="TextBox" name="title_box" prop:placeholder="Harbor Dental: website care"></anvil-component></label>
+          <div class="ui-field"><span>Which sites</span><anvil-component type="DropDown" name="tag_box"></anvil-component></div>
+          <label class="ui-field rl-wide"><span>Sign-off line <em>(optional)</em></span><anvil-component type="TextBox" name="note_box" prop:placeholder="Questions? Reply to this email."></anvil-component></label>
+        </div>
+        <div class="ui-row end rl-new-actions"><anvil-component type="Button" name="create_button" prop:text="Create the link" prop:role='["btn", "btn-primary", "ic-link"]'></anvil-component></div>
+      </div>
+
+      <div class="vr-sample" anvil:name="no_fleet">
+        <div class="ui-row vr-sample-text"><i class="ic ic-eye"></i><span><b>Reports show your own sites.</b> Add a site (and tag it with the client's name) to make your first report. Meanwhile, open the sample to see what your client gets.</span></div>
+        <a class="ui-btn sm primary" href="#report/sample">Open the sample report</a>
+      </div>
+
+      <anvil-component type="RepeatingPanel" name="reports_panel" prop:item_template="VitalRPA.Items.ReportCard" prop:role='["rl-list"]'></anvil-component>
+
+      <div class="ui-empty" anvil:name="empty">
+        <i class="ic ic-book"></i>
+        <h2>No client reports yet</h2>
+        <p>Tip: in the Console, choose a tag chip such as #clients and press "Client report for #clients".</p>
+        <a class="ui-btn" href="#report/sample">See the sample report</a>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

@@ -1,0 +1,18 @@
+<div class="rl-card-host"><div class="rl-card st-card" anvil:dom-node="box">
+  <div class="rl-top">
+    <div class="rl-name"><b anvil:dom-node="title"></b><small class="mono muted" anvil:dom-node="meta"></small></div>
+    <a class="ui-btn sm" anvil:name="open_link" target="_blank" rel="noopener"><i class="ic ic-external"></i>Open</a>
+  </div>
+  <div class="rl-link"><code anvil:dom-node="link"></code></div>
+  <div class="rl-edit" anvil:name="editor">
+    <label class="ui-field"><span>Report name</span><anvil-component type="TextBox" name="title_box"></anvil-component></label>
+    <label class="ui-field"><span>Sign-off line <em>(optional, shown at the bottom)</em></span><anvil-component type="TextBox" name="note_box" prop:placeholder="Questions? Reply to this email."></anvil-component></label>
+  </div>
+  <div class="ui-row rl-actions">
+    <anvil-component type="Button" name="copy_button" prop:text="Copy link" prop:role='["btn", "btn-primary", "btn-sm", "ic-copy"]'></anvil-component>
+    <anvil-component type="Button" name="edit_button" prop:text="Rename" prop:role='["btn", "btn-sm", "ic-edit"]'></anvil-component>
+    <anvil-component type="Button" name="save_button" prop:text="Save" prop:role='["btn", "btn-primary", "btn-sm", "ic-check"]' prop:visible="false"></anvil-component>
+    <anvil-component type="Button" name="rotate_button" prop:text="New link" prop:role='["btn", "btn-sm", "ic-refresh"]'></anvil-component>
+    <anvil-component type="Button" name="delete_button" prop:text="Turn off" prop:role='["btn", "btn-danger", "btn-sm", "ic-trash"]'></anvil-component>
+  </div>
+</div></div>

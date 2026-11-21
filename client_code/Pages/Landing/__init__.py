@@ -1,7 +1,8 @@
 from anvil import *
 
 from ._anvil_designer import LandingTemplate
-from ... import state
+from ... import router, state
+from ..Checkup import clean_host
 
 # The app's video on the Addanapp YouTube channel (APP_MAKER/youtube/manifest.json), shown in the Watch section.
 YT_VIDEO = "W0yKLujjtPk"
@@ -21,6 +22,21 @@ class Landing(LandingTemplate):
             state.set_attr(self.band_link, "href", "#home")
             self.dom_nodes["band_text"].textContent = "Open the console"
         self.dom_nodes["yt_cover"].addEventListener("click", self._play)
+        state.set_control_attr(self.check_box, "aria-label", "Website address to check")
+        state.set_control_attr(self.check_box, "inputmode", "url")
+        state.set_control_attr(self.check_box, "autocomplete", "off")
+
+    def _check(self):
+        host = clean_host(self.check_box.text)
+        router.go("checkup", host) if host else router.go("checkup")
+
+    @handle("check_button", "click")
+    def check_button_click(self, **event_args):
+        self._check()
+
+    @handle("check_box", "pressed_enter")
+    def check_box_pressed_enter(self, **event_args):
+        self._check()
 
     def _play(self, event):
         """Swap the video's cover for YouTube's player (privacy-enhanced); nothing loads from YouTube before this click."""

@@ -13,7 +13,7 @@
       <anvil-component type="Label" name="per_day" prop:role='["as-int"]'></anvil-component>
     </div>
     <details class="as-adv">
-      <summary>More checks (keyword, status, speed, tags)</summary>
+      <summary>More checks (keyword, status, speed, tags, alerts)</summary>
       <div class="ui-stack">
         <label class="ui-field"><span>Text that must be on the page <em>(catches blank or hacked pages)</em></span>
           <anvil-component type="TextBox" name="keyword_box" prop:placeholder="e.g. Add to cart"></anvil-component>
@@ -29,6 +29,9 @@
         <label class="ui-field"><span>Tags <em>(comma separated)</em></span>
           <anvil-component type="TextBox" name="tags_box" prop:placeholder="client-a, shop"></anvil-component>
         </label>
+        <div class="ui-field"><span>Alert after <em>(fewer false alarms)</em></span>
+          <anvil-component type="DropDown" name="confirm_box"></anvil-component>
+        </div>
       </div>
     </details>
     <anvil-component type="Label" name="message" prop:role='["msg-error"]' prop:visible="false"></anvil-component>

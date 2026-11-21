@@ -5,15 +5,25 @@ day by default, every 5 minutes if it matters): status code, response time, a ke
 certificate, the domain's expiry and the security headers. None of that needs any code on the site. An optional
 inline beacon (under 1 KB, no cookies, runs after the page has loaded) adds real visitors, page-load times and the
 JavaScript errors visitors hit. When something breaks, **playbooks** (the RPA part) act: email, webhooks for
-Slack/Teams/Discord/Zapier, or a second-robot recheck. Built on [Anvil](https://anvil.works).
+Slack/Teams/Discord/Zapier, or a recheck on a fresh connection. Built on [Anvil](https://anvil.works).
 
 - **App repo:** github.com/arkulinskis/VitalRPA (branch `master`). Anvil pulls `master`.
 - **Live:** https://vitalrpa.com (DNS pointed at Anvil on 2026-10-29). Listed in the Addanapp portfolio (Working businesses).
 
 ## What it does
 
-**For visitors (signed out):** a landing page (promise, how it works, what the robots check, "lighter than your favicon",
-FAQ), public status pages (`#status/<slug>`, e.g. the sample `#status/northwind`), sign-up, feedback, Privacy & Terms.
+**For visitors (signed out):** a landing page (promise, a "Check any website now" box, how it works, what the robots
+check, "lighter than your favicon", FAQ), public status pages (`#status/<slug>`, e.g. the sample `#status/northwind`),
+sign-up, feedback, Privacy & Terms.
+- **Free website check-up** (`#checkup/<host>`, no sign-up): the robots visit the address once and read status, speed,
+  certificate, domain and security headers while the page types out the robot log; then a report card (one row per check,
+  a status colour and what to do), Copy link, Run again (results older than 30 min) and "Watch it around the clock"
+  (sign up, then the console opens Add site with the address filled in). Results are kept 2 days per run (shared links
+  show the same card); 8 fresh runs per session per hour, 200 per hour in all, never a host checked in the last 30 min
+  again; only public http(s) hosts on ports 80/443 (no private, local or metadata addresses, also after redirects).
+- **Client reports** (`#report/<token>`, private link, no account): month picker (last full month, 6 months back),
+  uptime / incidents / downtime / checks / response headline, one row per site, "What the robots handled", the owner's
+  sign-off line, Print / PDF (clean A4). Sample: `#report/sample`.
 
 **For members:**
 - **Console** (`#home`): every site with a status light, a 24-hour strip (one cell per hour), 30-day uptime, average
@@ -38,6 +48,14 @@ FAQ), public status pages (`#status/<slug>`, e.g. the sample `#status/northwind`
   → email / webhook / recheck; on/off, test run, edit, delete); **cron heartbeats** (a ping URL + curl command for
   backups/cron jobs; late = incident; test ping, pause); the log of everything the robots did.
 - **Status page** (`#statuspage`): address, title, intro, which sites, public or private.
+- **Client reports** (`#reports`, account menu): one private link per client tag (Copy, Rename, New link, Turn off).
+  In the Console, choosing a tag chip shows "Client report for #tag" (two clicks to a copyable link).
+- **Renewals** (`#renewals`, account menu and the Console's Certificates tile): every certificate and domain sorted by
+  days left (this week / 30 / 90 days / later / no data) with Inspect now, and a private calendar feed
+  (`/_/api/renewals.ics?t=...`, https + webcal, Google/Apple/Outlook) with reminders 14 and 3 days before.
+- **Calm robots:** Settings and Add site have "Alert after: 1 / 2 (recommended) / 3 / 5 failed checks in a row"; before a
+  failure with no HTTP answer counts, the robot checks its own connection (google generate_204, then Cloudflare), and if
+  that is down too the check shows "Not counted" and nothing else changes.
 - **Profile:** name, theme, password reset, alert email, morning digest.
 - New accounts get two playbooks: "email me when something breaks" and "...when it's fixed".
 
@@ -50,9 +68,11 @@ FAQ), public status pages (`#status/<slug>`, e.g. the sample `#status/northwind`
 
 `SCHEDULED_TASKS` in `tools/sync_to_anvil.py` writes them into anvil.yaml:
 - `bot_tick` every 5 minutes: uptime sweep (sites whose `next_check` is due), heartbeat watchdog, silence detector.
-- `bot_daily` at 06:00 UTC: certificate + domain inspector, janitor (checks > 30 days, fingerprints > 2 days), digest.
+- `bot_daily` at 06:00 UTC: certificate + domain inspector, janitor (checks > 30 days, fingerprints and check-ups > 2 days), digest.
 
-Rules: a failed check is retried after 2 minutes (status `retrying`); the 2nd failure in a row = `down` + incident;
+Rules: a failed check is retried after 2 minutes (status `retrying`); the Nth failure in a row (Alert after, default 2)
+= `down` + incident; a failure while the robot's own connection is down is "not counted" and stops that sweep; sites
+already down go last in a sweep with an 8 s timeout, so a cluster of dead sites can't hold up the others;
 while down, checks every 5 minutes; 3 slow checks in a row = `slow` incident; certificate ≤ 14 days, domain ≤ 30 days
 = incident; a site with the beacon and a silence alarm (`quiet_hours`) that hears no visitor for that long = incident;
 50 JS errors in a day = incident. Every incident open/close runs the owner's playbooks.
@@ -85,7 +105,7 @@ What this project uses besides its own code. Generated by `APP_MAKER/tools/libra
 
 **Built into the browser:** localStorage, Clipboard.
 
-**Anvil platform:** Anvil, Anvil Data Tables, Anvil JS bridge (anvil.js), Anvil Users, Anvil Google service, Anvil HTTP, Anvil Email.
+**Anvil platform:** Anvil, Anvil Data Tables, Anvil Email, Anvil JS bridge (anvil.js), Anvil Secrets, Anvil Users, Anvil Google service, Anvil HTTP, Anvil timezones (anvil.tz).
 
 **Build and test tools (not shipped):** axe-core, Node.js, Headless Chrome (DevTools Protocol), PyYAML.
 
@@ -93,13 +113,13 @@ What this project uses besides its own code. Generated by `APP_MAKER/tools/libra
 
 ## Working on it
 
-See `.claude/skills/vitalrpa/SKILL.md`. In short:
+See `.claude/skills/vitalrpa/SKILL.md` and `APP_MAP.md`. In short:
 
 ```
-python -I tools/check.py --ui                    # syntax, server tests, headless UI tests → ALL CHECKS PASSED
-python -I tools/preview/devserver.py 8765        # the app on in-memory data: http://localhost:8765/  (?as=ana#home, ?as=admin#admin)
-python tools/deploy.py                           # dry run (needs PyYAML, so no -I)
-python tools/deploy.py --push "Message"          # deploy: commit + push to GitHub, Anvil pulls it
+python tools/check.py                            # Anvil validator, JS syntax, asset hashes, server tests → ALL CHECKS PASSED
+python -I tools/ui_test.py                       # the app in the Anvil App Server (Docker) + headless Chrome → ALL UI TESTS PASSED
+python -I tools/ui_test.py --only smoke.js       # quick: every page opens without errors
+git push origin master                           # deploy: Anvil pulls master
 ```
 
 ## Project layout

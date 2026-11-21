@@ -19,11 +19,13 @@ from . import Monitor, Incidents, Alerts, Beacon
 
 TICK_BUDGET_S = 240   # a sweep stops before the next one starts
 CHECKS_PER_TICK = 120
+DOWN_TIMEOUT_S = 8    # sites already known to be down get a shorter wait, and go last, so they can't hold up the rest
 
 BOTS = [
     {"key": "uptime", "name": "Uptime sweeper", "icon": "pulse", "cron": "*/5 * * * *", "every": "every 5 min",
      "does": "Loads each site when its turn comes (every hour by default, so 24 check-ins a day). A failure is retried "
-             "2 minutes later before anyone is alarmed, and a site that's down is checked every 5 minutes until it's back."},
+             "2 minutes later before anyone is alarmed (you choose after how many failures), the robot first checks its own "
+             "connection so its own hiccups never count, and a site that's down is checked every 5 minutes until it's back."},
     {"key": "beacon", "name": "Beacon listener", "icon": "radar", "cron": "always on", "every": "always on",
      "does": "Receives page views and JavaScript errors from the snippet on your pages: no cookies, after the page has loaded."},
     {"key": "silence", "name": "Silence detector", "icon": "bell", "cron": "*/5 * * * *", "every": "every 5 min",
@@ -33,7 +35,7 @@ BOTS = [
     {"key": "certs", "name": "Certificate & domain inspector", "icon": "lock", "cron": "0 6 * * *", "every": "daily 06:00 UTC",
      "does": "Reads every HTTPS certificate and the domain registration, and warns 14 and 30 days before they expire."},
     {"key": "janitor", "name": "Janitor", "icon": "database", "cron": "0 6 * * *", "every": "daily 06:00 UTC",
-     "does": "Deletes raw checks after 30 days and visitor fingerprints after 2 days. Daily totals stay."},
+     "does": "Deletes raw checks after 30 days, visitor fingerprints and free check-ups after 2 days. Daily totals stay."},
     {"key": "digest", "name": "Morning digest", "icon": "mail", "cron": "0 6 * * *", "every": "daily 06:00 UTC",
      "does": "Emails a one-screen summary of the last 24 hours to everyone who switched it on."},
 ]
@@ -62,12 +64,16 @@ def sweep_uptime(budget_s=TICK_BUDGET_S):
     start, now = time.monotonic(), C.now()
     due = [s for s in app_tables.sites.search(paused=q.not_(True))
            if s["next_check"] is None or C.utc(s["next_check"]) <= now]
-    due.sort(key=lambda s: C.utc(s["next_check"]) or now)
+    # healthy sites first; sites already down (often timing out) last, with a shorter wait
+    due.sort(key=lambda s: (s["status"] == "down", C.utc(s["next_check"]) or now))
     n, problems = 0, 0
     for s in due[:CHECKS_PER_TICK]:
         if time.monotonic() - start > budget_s:
             break
-        r = Monitor.run_check(s)
+        r = Monitor.run_check(s, timeout=DOWN_TIMEOUT_S if s["status"] == "down" else 12)
+        if r["state"] == "skipped":
+            # the robot's own connection is down: stop here, the rest stay due for the next tick
+            return n, "Paused the sweep after %d site%s: the robot's own connection failed (not counted)" % (n, "" if n == 1 else "s")
         n += 1
         problems += 1 if r["state"] != "up" else 0
     return n, "Checked %d site%s, %d with a problem" % (n, "" if n == 1 else "s", problems) if n else "Nothing was due"
@@ -117,8 +123,9 @@ def janitor():
     old_visits = app_tables.visits.search(day=q.less_than(now.date() - dt.timedelta(days=1)))
     old_log = app_tables.actions_log.search(at=q.less_than(now - dt.timedelta(days=90)))
     old_runs = app_tables.bot_runs.search(at=q.less_than(now - dt.timedelta(days=14)))
+    old_checkups = app_tables.checkups.search(at=q.less_than(now - dt.timedelta(days=2)))
     n = 0
-    for rows in (old_checks, old_visits, old_log, old_runs):
+    for rows in (old_checks, old_visits, old_log, old_runs, old_checkups):
         for r in rows:
             r.delete()
             n += 1
@@ -140,7 +147,7 @@ def digest():
         lines = ["Good morning! Your fleet in the last 24 hours:", ""]
         since = C.now() - dt.timedelta(hours=24)
         for s in sites:
-            checks = list(app_tables.checks.search(site=s, at=q.greater_than(since)))
+            checks = [c for c in app_tables.checks.search(site=s, at=q.greater_than(since)) if c["source"] != Monitor.NETWORK_SOURCE]
             up = sum(1 for c in checks if c["ok"])
             pct = "%.2f%%" % (100.0 * up / len(checks)) if checks else "no checks"
             d = Monitor.daily_row(s, (C.now() - dt.timedelta(days=1)).date())

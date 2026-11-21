@@ -2,7 +2,9 @@
 
 run_check(site): the check row, the day's totals, the site's status, and incidents:
   - a failed check is retried 2 minutes later before anyone is alarmed (status "retrying");
-  - the second failure in a row marks the site down and opens a "down" incident;
+  - the Nth failure in a row (sites.confirm_checks: 1, 2 = default, 3 or 5) marks the site down and opens a "down" incident;
+  - calm robots: before a failure with no HTTP answer counts, the robot checks its own connection (Probe.reference_ok);
+    if that is down too, the check is written as "not counted" (source robot-network) and nothing else changes;
   - while a site is down the robots look every 5 minutes, so recovery is noticed quickly;
   - SLOW_STREAK slow checks in a row open a "slow" incident; a fast check closes it.
 inspect(site): the certificate and domain checks (daily, or "Full inspection" on the site page).
@@ -59,14 +61,51 @@ def evaluate(site, r):
     return "up", None
 
 
-def run_check(site, at=None, source="robot"):
+CONFIRM_CHOICES = [1, 2, 3, 5]
+NETWORK_SOURCE = "robot-network"   # a check that didn't count: the robot's own connection was down
+
+
+def confirm_checks(site):
+    """How many failed checks in a row open a "down" incident (Settings -> Alert after). Safe before the user has
+    accepted the new column: anything missing or odd means the old rule, 2."""
+    try:
+        n = int(site["confirm_checks"] or 2)
+    except Exception:  # noqa: BLE001 - NoSuchColumnError until the Schema Mismatch is accepted
+        return 2
+    return n if n in CONFIRM_CHOICES else 2
+
+
+def set_confirm_checks(site, n):
+    """Write the column in its own guarded statement, so saving the rest still works before the schema is accepted."""
+    try:
+        site["confirm_checks"] = n
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def _not_counted(site, r, at):
+    """The robot's own line was down: record the check as "not counted", keep the site's status and failure count,
+    and look again in 2 minutes. No incident, no playbook, no change to uptime."""
+    why = r.get("error") or "No answer"
+    app_tables.checks.add_row(site=site, at=at, ok=True, slow=False, code=None, ms=r.get("ms"),
+                              error="Not counted: the robot's own connection failed (%s)" % why[:120],
+                              source=NETWORK_SOURCE, is_demo=bool(site["is_demo"]))
+    site.update(last_check=at, next_check=at + dt.timedelta(minutes=RETRY_MIN))
+    return {"state": "skipped", "status": site["status"], "code": None, "ms": r.get("ms"),
+            "problem": "Not counted: the robot's own connection failed", "at": C.iso(at), "redirects": None, "bytes": None}
+
+
+def run_check(site, at=None, source="robot", timeout=12):
     """Check the site now (or at `at`, for the demo's catch-up) and record it. Returns a summary dict."""
     at = at or C.now()
     if simulated(site):
         r = Probe.simulate(profile(site), "%s|%s" % (site["url"], at.strftime("%Y%m%d%H%M")))
     else:
-        r = Probe.http_check(site["url"], site["keyword"] or None)
+        r = Probe.http_check(site["url"], site["keyword"] or None, timeout=timeout)
     state, problem = evaluate(site, r)
+    if state == "fail" and not r.get("code") and not simulated(site) and not Probe.reference_ok():
+        return _not_counted(site, r, at)
     demo = bool(site["is_demo"])
     app_tables.checks.add_row(site=site, at=at, ok=state != "fail", slow=state == "slow", code=r.get("code"),
                               ms=r.get("ms"), error=problem, source=source, is_demo=demo)
@@ -77,7 +116,8 @@ def run_check(site, at=None, source="robot"):
     fails = (site["fails"] or 0) + 1 if state == "fail" else 0
     slow_streak = (site["slow_streak"] or 0) + 1 if state == "slow" else 0
     interval = site["interval_min"] or 60
-    if state == "fail" and fails == 1:
+    need = confirm_checks(site)
+    if state == "fail" and fails < need:
         status, nxt = "retrying", at + dt.timedelta(minutes=RETRY_MIN)
     elif state == "fail":
         status, nxt = "down", at + dt.timedelta(minutes=min(interval, DOWN_EVERY_MIN))
@@ -98,7 +138,7 @@ def run_check(site, at=None, source="robot"):
     site.update(**changes)
 
     name = site["name"]
-    if state == "fail" and fails >= 2:
+    if state == "fail" and fails >= need:
         Incidents.open_incident(site["owner"], "down", "%s is down" % name, problem, site=site)
     if state != "fail":
         Incidents.resolve(site=site, kind="down", how="Back up: HTTP %s in %s ms" % (r.get("code"), r.get("ms")))

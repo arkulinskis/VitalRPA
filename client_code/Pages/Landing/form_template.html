@@ -6,7 +6,16 @@
           <div class="lp-top">
             <div><h1>Robots that watch <em>every</em> website you run</h1></div>
             <div>
-              <p class="lp-lead">Robotic process automation for your web fleet. VitalRPA checks your sites around the clock: up or down, fast or slow, certificates and domains about to expire, visitors that suddenly stop. When something breaks, your playbooks act: an email, a Slack message, a second-robot recheck. Most of it needs no code at all.</p>
+              <p class="lp-lead">Robotic process automation for your web fleet. VitalRPA checks your sites around the clock: up or down, fast or slow, certificates and domains about to expire, visitors that suddenly stop. When something breaks, your playbooks act: an email, a Slack message, a recheck on a fresh connection. Most of it needs no code at all.</p>
+              <div class="lp-check" role="search" aria-label="Free website check-up">
+                <span class="lp-check-h"><i class="ic ic-radar"></i>Check any website now</span>
+                <div class="ck-form">
+                  <span class="ck-pre" aria-hidden="true">https://</span>
+                  <anvil-component type="TextBox" name="check_box" prop:placeholder="yourclient.com" prop:role='["ck-input"]'></anvil-component>
+                  <anvil-component type="Button" name="check_button" prop:text="Run the robots" prop:role='["btn", "btn-primary", "ic-robot"]'></anvil-component>
+                </div>
+                <small class="lp-check-s">Free, no sign-up: status, speed, certificate, domain and security headers in about 15 seconds.</small>
+              </div>
               <div class="lp-cta">
                 <a class="ui-btn primary lg" href="#auth/signup" anvil:name="guest_cta">Start monitoring, free <i class="ic ic-arrow"></i></a>
                 <a class="ui-btn primary lg" href="#home" anvil:name="member_cta">Open the console <i class="ic ic-arrow"></i></a>
@@ -30,9 +39,9 @@
             </div>
             <div class="lp-play">
               <div class="hd"><span>Playbook · site down</span><b>no code</b></div>
-                <div class="lp-step2"><i class="bad">!</i><span><span class="bad">14:05 GET harbordental → 502</span><small>robot 1, Montréal</small></span></div>
-                <div class="lp-step2"><i class="w">↻</i><span><span class="w">14:06 second robot rechecks</span><small>robot 2, Frankfurt: still failing</small></span></div>
-                <div class="lp-step2"><i class="w">✉</i><span><span class="w">14:07 email → oncall@</span><small>with the error and a screenshot</small></span></div>
+                <div class="lp-step2"><i class="bad">!</i><span><span class="bad">14:05 GET harbordental → 502</span><small>check 1 of 2: retry in 2 min</small></span></div>
+                <div class="lp-step2"><i class="w">↻</i><span><span class="w">14:07 recheck → still 502</span><small>robot's own connection fine: confirmed down</small></span></div>
+                <div class="lp-step2"><i class="w">✉</i><span><span class="w">14:07 email → oncall@</span><small>with the error and a link</small></span></div>
                 <div class="lp-step2"><i class="w">#</i><span><span class="w">14:07 Slack → #web</span><small>&quot;harbordental is down (502)&quot;</small></span></div>
                 <div class="lp-step2"><i class="ok">✓</i><span><span class="ok">14:19 back up, 211 ms</span><small>incident closed, 14 min</small></span></div>
               <span class="lp-chip">&lt;script&gt; <b>&lt; 1 KB</b> · no cookies</span>
@@ -69,7 +78,7 @@
           <div class="lp-steps">
             <div class="lp-step"><h3>Add your sites</h3><p>Paste the address. The robots load it like a visitor every hour (or every 5 minutes) and read what the server says: status code, response time, the text that must be on the page.</p><code>no code</code></div>
             <div class="lp-step"><h3>Paste one line, if you like</h3><p>The optional beacon adds real visitors, real page-load times and the JavaScript errors people hit. It waits until your page has loaded and weighs less than your favicon.</p><code>&lt;script&gt; &lt; 1 KB</code></div>
-            <div class="lp-step"><h3>Let the playbooks handle it</h3><p>If a site goes down, the robot rechecks from a second run, emails the on-call and posts to Slack or Teams. It writes everything to the incident timeline.</p><code>if → then</code></div>
+            <div class="lp-step"><h3>Let the playbooks handle it</h3><p>If a site goes down, the robot checks its own connection, rechecks two minutes later, then emails the on-call and posts to Slack or Teams. It writes everything to the incident timeline.</p><code>if → then</code></div>
           </div>
         </div>
       </section>
@@ -78,7 +87,7 @@
         <div class="ui-wrap">
           <div class="lp-head"><h2>Everything a sysadmin checks at 3 a.m.</h2><p>Without being awake at 3 a.m.</p></div>
           <div class="lp-feats">
-            <div class="lp-feat"><i class="ic ic-pulse"></i><h3>Uptime, 24× a day <span class="tag">no code</span></h3><p>Hourly by default, every 5 minutes if it matters. A failure is retried before anyone is woken up.</p></div>
+            <div class="lp-feat"><i class="ic ic-pulse"></i><h3>Uptime, 24× a day <span class="tag">no code</span></h3><p>Hourly by default, every 5 minutes if it matters. A failure is retried, and you choose after how many failures you hear about it.</p></div>
             <div class="lp-feat"><i class="ic ic-search"></i><h3>Keyword check <span class="tag">no code</span></h3><p>Catch the page that answers &quot;200 OK&quot; but is blank, broken or defaced.</p></div>
             <div class="lp-feat"><i class="ic ic-lock"></i><h3>Certificates <span class="tag">no code</span></h3><p>Warned 14 days before a TLS certificate expires, or the minute it&#x27;s broken.</p></div>
             <div class="lp-feat"><i class="ic ic-globe"></i><h3>Domain expiry <span class="tag">no code</span></h3><p>Read from the registry. Nobody loses a domain to an expired card again.</p></div>
@@ -89,6 +98,9 @@
             <div class="lp-feat"><i class="ic ic-bell"></i><h3>Silence alarm <span class="tag">beacon</span></h3><p>Visitors stopped arriving? The site may be broken for humans only, or the snippet was removed.</p></div>
             <div class="lp-feat"><i class="ic ic-zap"></i><h3>Playbooks <span class="tag">automation</span></h3><p>If this, then that: email, webhooks for Slack, Teams, Discord or Zapier, and robot rechecks.</p></div>
             <div class="lp-feat"><i class="ic ic-status"></i><h3>Public status page <span class="tag">share</span></h3><p>A page your customers can bookmark, with 90 days of uptime per service.</p></div>
+            <div class="lp-feat"><i class="ic ic-book"></i><h3>Client reports <span class="tag">agencies</span></h3><p>A private monthly link per client: uptime, downtime, renewals and what the robots handled. <a href="#report/sample">See a sample</a>.</p></div>
+            <div class="lp-feat"><i class="ic ic-calendar"></i><h3>Renewals calendar <span class="tag">no code</span></h3><p>Every certificate and domain on one board, and in Google, Apple or Outlook calendar with reminders.</p></div>
+            <div class="lp-feat"><i class="ic ic-radar"></i><h3>Free check-up <span class="tag">no sign-up</span></h3><p>Check any address in 15 seconds and share the report card. <a href="#checkup">Try it</a>.</p></div>
             <div class="lp-feat"><i class="ic ic-terminal"></i><h3>Incident timeline <span class="tag">teamwork</span></h3><p>Opened and closed by the robots; acknowledge, add notes, see who did what.</p></div>
           </div>
         </div>
@@ -124,7 +136,7 @@
             <details><summary>Will the snippet slow my site down?</summary><p>No. It&#x27;s about 800 bytes of inline code, so there&#x27;s no extra file to download. It does nothing until your page has finished loading, then sends one background ping with navigator.sendBeacon, which the browser handles after everything else.</p></details>
             <details><summary>What does the beacon collect?</summary><p>The page path, the site the visitor came from, the screen width, how long the page took to load, and up to 3 JavaScript error messages per page. No cookies, nothing stored in the browser, and it respects Do Not Track. Unique visitors are counted with a fingerprint whose secret changes every day; IP addresses are never stored.</p></details>
             <details><summary>How often do the robots check?</summary><p>Every site has its own rhythm: every 5, 15 or 30 minutes, hourly (24 check-ins a day, the default) or less often. While a site is down, the robots look every 5 minutes so you know the moment it&#x27;s back.</p></details>
-            <details><summary>How will I hear about problems?</summary><p>Through playbooks. Every new account starts with &quot;email me when something breaks, and when it&#x27;s fixed&quot;. Add webhooks for Slack, Microsoft Teams, Discord or Zapier, a morning digest, or a second-robot recheck before anyone is paged.</p></details>
+            <details><summary>How will I hear about problems?</summary><p>Through playbooks. Every new account starts with &quot;email me when something breaks, and when it&#x27;s fixed&quot;. Add webhooks for Slack, Microsoft Teams, Discord or Zapier, a morning digest, or a recheck on a fresh connection before anyone is paged. False alarms stay rare: the robot checks its own connection before it counts a failure, and you choose after how many failures in a row (1, 2, 3 or 5) you hear about it.</p></details>
             <details><summary>Can I try it before adding my own site?</summary><p>Yes. Sign up and you land in a sample fleet: eight fictional sites with outages, slow pages, an expiring certificate and a late backup, so you can see every feature working. Add your first site and the console becomes yours.</p></details>
             <details><summary>Is it free?</summary><p>Yes, during early access: up to 50 sites and 50 heartbeats per account.</p></details>
           </div>
